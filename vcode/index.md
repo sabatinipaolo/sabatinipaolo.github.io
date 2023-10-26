@@ -9,12 +9,12 @@ layout: default
 - [ ]  **rimuovere** dalla variabile di sistema path (sia utente che sistema ) `c:\mingw`  `c:\mingw64`  se esistono
 - [ ]  **aggiungere** nella variabile di sistema path
 
-      `C:\msys64\ucrt64\bin` 
+``` C:\msys64\ucrt64\bin ```
 - [ ]  (consigliato) cancellare le directory `c:\mingw`  `c:\mingw64`  se esistono
 - [ ]  scaricare ed installare come amministratore mingw via MSYS2  da [questo link](https://github.com/msys2/msys2-installer/releases/download/2023-05-26/msys2-x86_64-20230526.exe )
 - [ ]  a fine installazione **eseguire MSYS2** e dentro la consolle **digitare il comando** :
-
-      `pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain`
+      
+``` pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain ```
       
 premere invio, invio e  e accettare tutti i default 
 
@@ -40,4 +40,10 @@ premere invio, invio e  e accettare tutti i default
 - [ ]  installare l'estensione "C/C++ IntelliSense, debugging, and code browsing". della microsoft
 
 
-- [ ]  provare run e debug con hello.cpp 
+- [ ]  provare run e debug con hello.cpp
+
+
+riferimenit:
+
+[https://code.visualstudio.com/docs/cpp/config-mingw](https://code.visualstudio.com/docs/cpp/config-mingw)
+

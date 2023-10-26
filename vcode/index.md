@@ -1,7 +1,7 @@
 
 **Installazione mingw (compilatore)** 
 \
-- [ ] **rimuovere** dalla variabile di sistema path (sia utente che sistema ) `c:\mingw   c:\mingw64`  se esistono
+- [ ] **rimuovere** dalla variabile di sistema path (sia utente che sistema ) `c:\mingw`  `c:\mingw64`  se esistono
 - [ ] **aggiungere** nella variabile di sistema path  `C:\msys64\ucrt64\bin` 
 - [ ] (consigliato) cancellare le directory `c:\mingw`  `c:\mingw64`  se esistono
 - [ ] scaricare ed installare come amministratore mingw via MSYS2  da [questo link](https://github.com/msys2/msys2-installer/releases/download/2023-05-26/msys2-x86_64-20230526.exe )

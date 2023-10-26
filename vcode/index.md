@@ -28,7 +28,7 @@ premere invio, invio e  e accettare tutti i default
 
 - [ ]  se la versione di visual code non è 1.83.1  disinstallarla
 
-- [ ]  installazione di visualcode 1.83.1  [download da questo link] (https://code.visualstudio.com/Download#) (system installer X64 il file si chiama VSCodeSetup-x64-1.83.1.exe ) 
+- [ ]  installazione di visualcode 1.83.1  [download da questo link](https://code.visualstudio.com/Download#) (system installer X64 il file si chiama VSCodeSetup-x64-1.83.1.exe ) 
 
 **A FINE INSTALLAZIONE CHIUDERE VISUAL CODE E RIAPRIRLO COME UTENTE !!**\
 **A FINE INSTALLAZIONE CHIUDERE VISUAL CODE E RIAPRIRLO COME UTENTE !!**

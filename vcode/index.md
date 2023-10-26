@@ -1,3 +1,8 @@
+---
+title: Inst.ne Code
+layout: default
+---
+
 
 **Installazione mingw (compilatore)** 
 

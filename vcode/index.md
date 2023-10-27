@@ -23,9 +23,13 @@ premere invio, invio e  e accettare tutti i default
 `gcc --version`\
 `g++ --version`\
 `gdb --version`
+
 ___
+
 **Installazione VisualCodeStudio**
+
 ___
+
 - [ ]  se la versione di visual code non è 1.83.1  disinstallarla.
 
  per una disinstallazione pulita cabcellare inoltre le directory ( [vedi](https://code.visualstudio.com/docs/setup/uninstall#_clean-uninstall) )

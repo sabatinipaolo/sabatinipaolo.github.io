@@ -3,9 +3,12 @@ title: Inst.ne Code
 layout: default
 ---
 
-_____
-**Installazione mingw (compilatore)** 
-____
+___
+
+**Installazione mingw (compilatore)**
+
+___
+
 - [ ]  **rimuovere** dalla variabile di sistema path (sia utente che sistema ) `c:\mingw`  `c:\mingw64`  se esistono
 - [ ]  **aggiungere** nella variabile di sistema path
 

@@ -37,9 +37,9 @@ ___
 
  per una disinstallazione pulita cabcellare inoltre le directory ( [vedi](https://code.visualstudio.com/docs/setup/uninstall#_clean-uninstall) )
 
-`C:\Users\studente\AppData\Roaming\Code`
+>- [ ] `C:\Users\studente\AppData\Roaming\Code`
 
-`C:\Users\studente\.vscode`
+>- [ ]  `C:\Users\studente\.vscode`
 
 
 

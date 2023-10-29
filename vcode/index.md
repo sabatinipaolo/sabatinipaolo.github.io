@@ -29,6 +29,7 @@ premere invio, invio e  e accettare tutti i default
 \
 \
 \
+
 ___
 
 **Installazione VisualCodeStudio**

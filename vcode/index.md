@@ -79,6 +79,8 @@ ___
   - sceglere "extension setting"
   - cercare la cconfigurazione "hover" e disabilitarla
 
+disponibile [video](video/hover.mp4)
+
 ___
 **riferimenti:**
 ___

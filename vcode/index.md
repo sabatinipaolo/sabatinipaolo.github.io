@@ -9,7 +9,7 @@ ___
 
 ___
 
-[ ]  **rimuovere** dalla variabile di sistema path (sia utente che sistema ) `c:\mingw`  `c:\mingw64`  se esistono
+- [ ]  **rimuovere** dalla variabile di sistema path (sia utente che sistema ) `c:\mingw`  `c:\mingw64`  se esistono
 - [ ]  **aggiungere** nella variabile di sistema path
 
 ``` C:\msys64\ucrt64\bin ```

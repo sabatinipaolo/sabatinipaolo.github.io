@@ -37,9 +37,9 @@ ___
 
  per una disinstallazione pulita cabcellare inoltre le directory ( [vedi](https://code.visualstudio.com/docs/setup/uninstall#_clean-uninstall) )
 
->- [ ] `C:\Users\studente\AppData\Roaming\Code`
+- `C:\Users\studente\AppData\Roaming\Code`
 
->- [ ]  `C:\Users\studente\.vscode`
+- `C:\Users\studente\.vscode`
 
 
 
@@ -49,8 +49,9 @@ ___
 **A FINE INSTALLAZIONE CHIUDERE VISUAL CODE E RIAPRIRLO COME UTENTE !!**
 
 
-
+___
 **installazione plugin per il c/c++!!**
+___
 
 - [ ]  installare l'estensione "C/C++ IntelliSense, debugging, and code browsing". della microsoft
 
@@ -69,9 +70,18 @@ int main() {
 }
 
 ```
+___
+**FACOLTATIVO : rimuovere i suggerimenti (hint) al passaggio del mouse (hover)**
+___
 
+- [ ] - andare nella sezione plugin/estensioni ( Ctrl+Shift+x );
+  - cliccare sulla configurazione (rotellina) di "C/C++ intellisense .."
+  - sceglere "extension setting"
+  - cercare la cconfigurazione "hover" e disabilitarla
 
-riferimenti:
+___
+**riferimenti:**
+___
 
 [https://code.visualstudio.com/docs/cpp/config-mingw](https://code.visualstudio.com/docs/cpp/config-mingw)
 

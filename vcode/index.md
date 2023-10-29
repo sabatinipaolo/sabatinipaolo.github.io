@@ -23,8 +23,8 @@ premere invio, invio e  e accettare tutti i default
 
 - [ ]  aprire un prompt dei comandi  e digitare i comandi :
 
-  - `gcc --version`\
-  - `g++ --version`\
+  - `gcc --version`
+  - `g++ --version`
   - `gdb --version`
 \
 \

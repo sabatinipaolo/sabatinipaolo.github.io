@@ -11,4 +11,4 @@ configurare i dispositivi nel seguente modo:
 
 Allego anche lo scenario da ricreare ( per evidenziare che i router i collegano intere reti mettevo uno switch, ora siete abbastanza competenti per capire che un pc collegato ad un router fa parte di una rete composta da soli due dispositivi )
 
-[
+[4subnet_scenario.png](4subnet_scenario.png)

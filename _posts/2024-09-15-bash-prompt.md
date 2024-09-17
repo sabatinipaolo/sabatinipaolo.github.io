@@ -8,12 +8,7 @@ tags:
 
 permalink: /blog/il-prompt-di-bash/
 ---
-  
-
-TLDR:
-
-
-![il prompt di Bash]({{ site.url }}{{ site.baseurl }}/assets/images/bash-prompt/tltr-bash-prompt)
+TLDR:![il prompt di Bash]({{ site.url }}{{ site.baseurl }}/assets/images/bash-prompt/tltr-bash-prompt)
 
 
 ---

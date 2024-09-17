@@ -10,10 +10,7 @@ tags:
 
 permalink: /blog/come-funziona-la-shell/
 ---
-  
-
 TLDR:
-
 la shell legge in input un comando che può essere interno o esterno, se interno lo esegue se esterno lo sottomentte al sistema 
 
 ---

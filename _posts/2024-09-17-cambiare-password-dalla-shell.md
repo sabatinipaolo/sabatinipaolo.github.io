@@ -1,7 +1,7 @@
 ---
 title: "Cambiare password dalla shell, comando passwd "
 categories:
-  - Blog
+  - blog
 tags:
   - bash
   - shell

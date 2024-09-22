@@ -1,7 +1,7 @@
 ---
 title: "esercizio sui caratteri jolly "
 categories:
-  - Blog
+  - blog
 tags:
   - bash
   - shell

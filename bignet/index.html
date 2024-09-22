@@ -4,190 +4,219 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Big network</title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="" />
 
-        <script>
-            mask_to_cidr = {
-                "0.0.0.0": 0,
-                "128.0.0.0": 1,
-                "192.0.0.0": 2,
-                "224.0.0.0": 3,
-                "240.0.0.0": 4,
-                "248.0.0.0": 5,
-                "252.0.0.0": 6,
-                "254.0.0.0": 7,
-                "255.0.0.0": 8,
-                "255.128.0.0": 9,
-                "255.192.0.0": 10,
-                "255.224.0.0": 11,
-                "255.240.0.0": 12,
-                "255.248.0.0": 13,
-                "255.252.0.0": 14,
-                "255.254.0.0": 15,
-                "255.255.0.0": 16,
-                "255.255.128.0": 17,
-                "255.255.192.0": 18,
-                "255.255.224.0": 19,
-                "255.255.240.0": 20,
-                "255.255.248.0": 21,
-                "255.255.252.0": 22,
-                "255.255.254.0": 23,
-                "255.255.255.0": 24,
-                "255.255.255.128": 25,
-                "255.255.255.192": 26,
-                "255.255.255.224": 27,
-                "255.255.255.240": 28,
-                "255.255.255.248": 29,
-                "255.255.255.252": 30,
-                "255.255.255.254": 31,
-                "255.255.255.255": 32,
-            };
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Big network</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
 
-            var cidr_to_mask = [
-                "0.0.0.0",
-                "128.0.0.0",
-                "192.0.0.0",
-                "224.0.0.0",
-                "240.0.0.0",
-                "248.0.0.0",
-                "252.0.0.0",
-                "254.0.0.0",
-                "255.0.0.0",
-                "255.128.0.0",
-                "255.192.0.0",
-                "255.224.0.0",
-                "255.240.0.0",
-                "255.248.0.0",
-                "255.252.0.0",
-                "255.254.0.0",
-                "255.255.0.0",
-                "255.255.128.0",
-                "255.255.192.0",
-                "255.255.224.0",
-                "255.255.240.0",
-                "255.255.248.0",
-                "255.255.252.0",
-                "255.255.254.0",
-                "255.255.255.0",
-                "255.255.255.128",
-                "255.255.255.192",
-                "255.255.255.224",
-                "255.255.255.240",
-                "255.255.255.248",
-                "255.255.255.252",
-                "255.255.255.254",
-                "255.255.255.255",
-            ];
+    <script>
+        mask_to_cidr = {
+            "0.0.0.0": 0,
+            "128.0.0.0": 1,
+            "192.0.0.0": 2,
+            "224.0.0.0": 3,
+            "240.0.0.0": 4,
+            "248.0.0.0": 5,
+            "252.0.0.0": 6,
+            "254.0.0.0": 7,
+            "255.0.0.0": 8,
+            "255.128.0.0": 9,
+            "255.192.0.0": 10,
+            "255.224.0.0": 11,
+            "255.240.0.0": 12,
+            "255.248.0.0": 13,
+            "255.252.0.0": 14,
+            "255.254.0.0": 15,
+            "255.255.0.0": 16,
+            "255.255.128.0": 17,
+            "255.255.192.0": 18,
+            "255.255.224.0": 19,
+            "255.255.240.0": 20,
+            "255.255.248.0": 21,
+            "255.255.252.0": 22,
+            "255.255.254.0": 23,
+            "255.255.255.0": 24,
+            "255.255.255.128": 25,
+            "255.255.255.192": 26,
+            "255.255.255.224": 27,
+            "255.255.255.240": 28,
+            "255.255.255.248": 29,
+            "255.255.255.252": 30,
+            "255.255.255.254": 31,
+            "255.255.255.255": 32,
+        };
 
-            function ip_String_to_int(ip_string) {
-                //trasforma la string in ottetti
-                o = ip_string
-                    .split(".")
-                    .map((s) => Number(s))
-                    .reverse();
+        var cidr_to_mask = [
+            "0.0.0.0",
+            "128.0.0.0",
+            "192.0.0.0",
+            "224.0.0.0",
+            "240.0.0.0",
+            "248.0.0.0",
+            "252.0.0.0",
+            "254.0.0.0",
+            "255.0.0.0",
+            "255.128.0.0",
+            "255.192.0.0",
+            "255.224.0.0",
+            "255.240.0.0",
+            "255.248.0.0",
+            "255.252.0.0",
+            "255.254.0.0",
+            "255.255.0.0",
+            "255.255.128.0",
+            "255.255.192.0",
+            "255.255.224.0",
+            "255.255.240.0",
+            "255.255.248.0",
+            "255.255.252.0",
+            "255.255.254.0",
+            "255.255.255.0",
+            "255.255.255.128",
+            "255.255.255.192",
+            "255.255.255.224",
+            "255.255.255.240",
+            "255.255.255.248",
+            "255.255.255.252",
+            "255.255.255.254",
+            "255.255.255.255",
+        ];
 
-                return o[0] + 256 * o[1] + 256 * 256 * o[2] + 256 * 256 * 256 * o[3];
+        function ip_String_to_int(ip_string) {
+            //trasforma la string in ottetti
+            o = ip_string
+                .split(".")
+                .map((s) => Number(s))
+                .reverse();
+
+            return o[0] + 256 * o[1] + 256 * 256 * o[2] + 256 * 256 * 256 * o[3];
+        }
+
+        function int_to_IP(num) {
+            IP = "";
+            for (let i = 0; i < 4; i++) {
+                ottetto = num % 256;
+                IP = ottetto + "." + IP;
+                num = Math.floor(num / 256);
             }
 
-            function int_to_IP(num) {
-                IP = "";
-                for (let i = 0; i < 4; i++) {
-                    ottetto = num % 256;
-                    IP = ottetto + "." + IP;
-                    num = Math.floor(num / 256);
-                }
+            return IP.substring(0, IP.length - 1);
+        }
 
-                return IP.substring(0, IP.length - 1);
+        function calcola_con_mask() {
+            inf_net = {};
+            inf_net.address = document.getElementById("network_mask_inf").value.split("/")[0];
+            inf_net.mask = document.getElementById("network_mask_inf").value.split("/")[1];
+
+            sup_net = {};
+            sup_net.address = document.getElementById("network_mask_sup").value.split("/")[0];
+            sup_net.mask = document.getElementById("network_mask_sup").value.split("/")[1];
+
+            calcola(inf_net, sup_net);
+
+        }
+        function calcola_con_due_campi() {
+
+            inf_net = {};
+            inf_net.address = document.getElementById("network_inf").value;
+            inf_net.mask = document.getElementById("mask_inf").value;
+
+            sup_net = {};
+
+            sup_net.address = document.getElementById("network_sup").value;
+            sup_net.mask = document.getElementById("mask_sup").value;
+
+            calcola(inf_net, sup_net);
+
+        }
+
+        function calcola(inf_net, sup_net) {
+            document.getElementById("risultati").innerHTML = "";
+
+            inf_net.mask_cidr = mask_to_cidr[inf_net.mask];
+
+            inf_net.last_address_int =
+                ip_String_to_int(inf_net.address) + 2 ** [32 - inf_net.mask_cidr] - 1;
+
+            sup_net.mask_cidr = mask_to_cidr[sup_net.mask];
+
+            sup_net.address_int = ip_String_to_int(sup_net.address);
+
+            spezza(inf_net.last_address_int + 1, sup_net.address_int - 1);
+
+            console.log("finito.....................");
+        }
+
+        function spezza(inf, sup) {
+            risultati = document.getElementById("risultati");
+            buco = sup - inf + 1;
+            if (buco == 0) return;
+
+            target_bit_host = Math.floor(Math.log2(buco));
+            target_num_host = 2 ** target_bit_host;
+            //quesito ci cade sempre una rete target nell'intervallo inf sup? SI , QUALE È?
+
+            p = Math.floor(inf / target_num_host) * target_num_host;
+
+            if (p == inf) {
+                risultati.innerHTML +=
+                    "<p>" + int_to_IP(inf) + "/" + (32 - target_bit_host) + "</p>";
+                console.log(int_to_IP(inf) + "--- /" + (32 - target_bit_host));
+                spezza(inf + target_num_host, sup);
+                return;
             }
 
-            function calcola() {
-                document.getElementById("risultati").innerHTML = "";
-                inf_net = {};
+            if (p < inf) {
+                spezza(inf, p + target_num_host - 1);
+                spezza(p + target_num_host, sup);
 
-                inf_net.address = document.getElementById("network_inf").value;
-
-                inf_net.mask_cidr = mask_to_cidr[document.getElementById("mask_inf").value];
-
-                inf_net.last_address_int =
-                    ip_String_to_int(inf_net.address) + 2 ** [32 - inf_net.mask_cidr] - 1;
-
-                sup_net = {};
-
-                sup_net.address = document.getElementById("network_sup").value;
-
-                sup_net.mask_cidr = mask_to_cidr[document.getElementById("mask_sup").value];
-
-                sup_net.address_int = ip_String_to_int(sup_net.address);
-
-                spezza(inf_net.last_address_int + 1, sup_net.address_int - 1);
-
-                console.log("finito.....................");
+                return;
             }
 
-            function spezza(inf, sup) {
-                risultati = document.getElementById("risultati");
-                buco = sup - inf + 1;
-                if (buco == 0) return;
-
-                target_bit_host = Math.floor(Math.log2(buco));
-                target_num_host = 2 ** target_bit_host;
-                //quesito ci cade sempre una rete target nell'intervallo inf sup? SI , QUALE È?
-
-                p = Math.floor(inf / target_num_host) * target_num_host;
-
-                if (p == inf) {
-                    risultati.innerHTML +=
-                        "<p>" + int_to_IP(inf) + "/" + (32 - target_bit_host) + "</p>";
-                    console.log(int_to_IP(inf) + "--- /" + (32 - target_bit_host));
-                    spezza(inf + target_num_host, sup);
-                    return;
-                }
-
-                if (p < inf) {
-                    spezza(inf, p + target_num_host - 1);
-                    spezza(p + target_num_host, sup);
-
-                    return;
-                }
-
-                if (p > inf) {
-                    //NON PUO' ACCADERE , todo. dimostrare !!
-                    throw new Error("p> inf !!!!!!");
-                }
+            if (p > inf) {
+                //NON PUO' ACCADERE , todo. dimostrare !!
+                throw new Error("p> inf !!!!!!");
             }
-        </script>
-    </head>
+        }
+    </script>
+</head>
 
-    <body>
-        <!--[if lt IE 7]>
+<body>
+    <!--[if lt IE 7]>
             <p class="browsehappy">
                 You are using an <strong>outdated</strong> browser. Please
                 <a href="#">upgrade your browser</a> to improve your experience.
             </p>
         <![endif]-->
 
-        Utility per generare le reti contigue in un buco di due reti, riduce al minimo le subnet
+    Utility per generare le reti contigue in un buco di due reti, riduce al minimo le subnet
 
-        <br />
-        inserire correttamente indirizzi di rete , e le maschere NON EFFETTUA ALCUUN CONTROLLO SUI
-        VALORI INSERITI!!!
-        <br /><br /><br />
-        <pre>
+    <br />
+    inserire correttamente indirizzi di rete , e le maschere NON EFFETTUA ALCUUN CONTROLLO SUI
+    VALORI INSERITI!!!
+    <br /><br /><br />
+    <pre>
+    rete/mask inf: <input type="text" name="" id="network_mask_inf" size="36" />
+    rete/mask sup: <input type="text" name="" id="network_mask_sup" size="36"/>
+    </pre>
+    <button onclick="calcola_con_mask()">calcola</button>
+    <br /><br /><br />
+
+    <pre>
     rete inf: <input type="text" name="" id="network_inf" />
     mask:     <input type="text" name="" id="mask_inf" />
     
     rete sup: <input type="text" name="" id="network_sup" />
     mask:     <input type="text" name="" id="mask_sup" />
-        
     </pre>
-        <button onclick="calcola()">calcola</button>
+    <button onclick="calcola_con_due_campi()">calcola</button>
 
-        <div id="risultati"></div>
-    </body>
+
+    <div id="risultati"></div>
+</body>
+
 </html>

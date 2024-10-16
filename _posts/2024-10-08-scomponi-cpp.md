@@ -86,3 +86,41 @@ esiste il comando
 ```
 [https://www.gnu.org/software/coreutils/manual/html_node/factor-invocation.html#factor-invocation](https://www.gnu.org/software/coreutils/manual/html_node/factor-invocation.html#factor-invocation)
 
+
+oltre ad essere molto più performante del mio programma prevede un controllo dell'input come si deve!
+Se si passa a parametro una stringa invece di un intero il programma non va in loop infinito...
+
+questo un estratto del sorgente di *factor.c*
+
+```c
+
+  /* Try converting the number to one or two words.  If it fails, use GMP or
+     print an error message.  The 2nd condition checks that the most
+     significant bit of the two-word number is clear, in a typesize neutral
+     way.  */
+  strtol_error err = strto2uintmax (&t1, &t0, str);
+
+  switch (err)
+    {
+    case LONGINT_OK:
+      if (((t1 << 1) >> 1) == t1)
+        {
+          devmsg ("[using single-precision arithmetic] ");
+          print_factors_single (t1, t0);
+          return true;
+        }
+      break;
+
+    case LONGINT_OVERFLOW:
+      /* Try GMP.  */
+      break;
+
+    default:
+      error (0, 0, _("%s is not a valid positive integer"), quote (input));
+      return false;
+    }
+```
+
+notare la riga `strto2uintmax (&t1, &t0, str);` di fatto in input legge una stringa e la converte (prova) in un intero positivo se non riesce comunica l'errore.
+
+insomma un input miglior di `cin` ... 

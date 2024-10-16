@@ -11,7 +11,7 @@ tags:
 permalink: /blog/scomponi/
 ---
 
-TLDR: sorgetnte di unfile per la scomposizione in fattori primi di un numero
+TLDR: sorgente di un file per la scomposizione in fattori primi di un numero
 
 lanciare il comando
 
@@ -77,3 +77,12 @@ int main()
 }
 
 ```
+
+fatica sprecata!
+esiste il comando 
+
+```bash 
+ factor 
+```
+[https://www.gnu.org/software/coreutils/manual/html_node/factor-invocation.html#factor-invocation](https://www.gnu.org/software/coreutils/manual/html_node/factor-invocation.html#factor-invocation)
+

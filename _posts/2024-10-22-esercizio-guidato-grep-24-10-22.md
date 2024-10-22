@@ -36,7 +36,7 @@ Puoi usarlo per cercare testo nei file
 grep supporta anche espressioni regolari
 viene usato moltissimo
 grep è così utile che ha dato
-origine a un terribile neologismo: to grepping
+origine a un terribile neologismo: grepping
 in italiano suonerebbe ancora più terribile: greppare
 
 ```

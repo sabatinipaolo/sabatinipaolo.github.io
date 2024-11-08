@@ -18,6 +18,9 @@ TLDR: comandi per verificare se il sistema è partito da Uefi o Bios.
 ```bash 
     [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
 ```
+anche altri modi :
+[https://www.baeldung.com/linux/uefi-check-machine-boot-method](https://www.baeldung.com/linux/uefi-check-machine-boot-method)
+
 
 
 ### Windows

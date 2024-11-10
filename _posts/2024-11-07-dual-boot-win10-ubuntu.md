@@ -17,6 +17,7 @@ TLDR: qualche rogna dell'installare windows e linux in dual boot
 
 
 [How large should you make the UEFI System Partition?](https://www.ctrl.blog/entry/esp-size-guide.html)
+
 [How to change the UEFI System Partition size in Windows Setup ](https://www.ctrl.blog/entry/how-to-esp-windows-setup.html)
 
 [Install Windows 10 with larger EFI partition](https://superuser.com/questions/1176310/install-windows-10-with-larger-efi-partition)

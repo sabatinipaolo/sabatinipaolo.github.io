@@ -1,0 +1,96 @@
+disabilitare in windows fast startup;
+disabilitare hibernazione :
+ powercfg -h off
+
+
+01-PARTENZA WINDOWS:
+
+se:
+    bcdedit /enum firmware
+    elenca anche ubuntu
+allora:
+    bcdedit /set {fwbootmgr} displayorder {guid of ubuntu} /addfirst
+    bcedit /enum firmware
+
+    shutdown /s /f /t 0
+
+    accendi :
+    canc per bios :
+    se:
+        ordine boot ha ubuntu
+    allora :
+        da grub entra in windows
+        bcedit /enum firmware
+        se:
+            ubuntu è ancora al primo posto
+        allora:
+            RISOLTO !!!!!!!!!!!!
+            ma prova riavvio/spegnimento da windows
+        altrimenti:
+            bcdedit /set {fwbootmgr} displayorder {guid of ubuntu} /addfirst
+            bcedit /enum firmware
+            se:
+                ubuntu non è al primo posto
+            allora:    TERRRRRRMINA DEPRESSOOOOO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            shutdown /s /f /t 0
+            entra in linux :
+            prova:
+            sudo efibootmgr --bootnum #### --inactive
+            sudo efibootmgr --bootorder ####,$$$$,&&&&,%%%%
+            prova un paio di riavvi..
+
+            oppure :
+
+            CREA SCRIPT
+
+    altrimenti:
+        //è strano perchè in efi-shell di solito risulta
+
+        shutdown /s /f /t 0
+
+        fai partire il pc con EFI-SHELL usb
+
+        bcfg boot dump
+        se:
+          presente ubuntu
+        allora:
+            bcfg boot mv <num ubuntu> 01     //sposta ubuntu al primo posto
+            reset -s
+            al riavvio entra da grub in windows:
+            vai a 01-PARTENZA WINDOWS:
+        altrimenti:
+            map
+            bcfg boot add 00 fs...:\efi\ubuntu\shimx64.efi ubuntu
+            reset -s
+            al riavvio entra da grub in windows:
+            vai a 01-PARTENZA WINDOWS:
+
+
+
+
+
+
+PROCEDURA: CREASCRIPT:
+
+in windows:
+
+bcdedit /enum firmware
+
+prendi nota guid ubuntu
+
+
+
+mkdir c:\Users\galilei\script\
+
+echo C:\Windows\system32\bcdedit /set {fwbootmgr} displayorder {GUID UBUNTU} /addfirst  > c:\Users\galilei\script\sistemaBoot.bat
+
+
+schtasks.exe /create /sc ONSTART /tn personali\sistemaBootTask /tr "c:\Users\galilei\script\sistemaBoot.bat" /ru system
+
+
+
+
+
+
+

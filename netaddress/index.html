@@ -128,6 +128,18 @@
             this.ottettoInEditing++;
         }
 
+        onDelOctectClick() {
+          if (this.ottettoInEditing ==1 ){
+            this.campoEditatoDaUtente.innerHTML = "";
+            return
+          }
+          
+          let appo=this.campoEditatoDaUtente.innerHTML.split(".",this.ottettoInEditing-2);
+          this.ottettoInEditing--
+
+          this.campoEditatoDaUtente.innerHTML = appo.join(".");
+        }
+
         onButtonClick() {
           if (event.target.value == "del") {
             this.campoEditatoDaUtente.innerHTML =
@@ -269,7 +281,7 @@
       <div class="kbo">
         <input type="button" value="+oct" onclick="ui.onAddOctectClick()" />
         <input type="button" value="" />
-        <input type="button" value="-oct" onclick="" />
+        <input type="button" value="-oct" onclick="ui.onDelOctectClick()" />
         <input type="button" value="7" onclick="ui.onButtonClick(event)" />
         <input type="button" value="8" onclick="ui.onButtonClick(event)" />
         <input type="button" value="9" onclick="ui.onButtonClick(event)" />

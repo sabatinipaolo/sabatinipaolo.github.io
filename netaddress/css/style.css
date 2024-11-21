@@ -1,0 +1,112 @@
+:root {
+  --blue: #0072c6;
+  --gray: #6d6e71;
+  --light-gray: #e0e0e0;
+}
+
+*,
+*::before,
+*::after {
+  /* border: dashed red 2px; */ /* debug */
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, Noto, Oxygen-Sans,
+    Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--light-gray);
+  caret-color: transparent;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: min(450px, 100%);
+  height: 100%;
+  padding: 15px;
+}
+
+.ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  width: 100%;
+  font-size: 18px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+}
+
+.label {
+  flex: 0.4;
+}
+
+.info,
+.input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.6;
+}
+
+.info {
+  font-size: 26px;
+}
+
+.input {
+  background-color: rgb(255, 255, 255);
+  height: 75%;
+  border: solid 3px var(--gray);
+  border-radius: 8px;
+}
+
+.kbo {
+  display: grid;
+  grid-template-columns: 32% 32% 32% ;
+  /* grid-template-columns: repeat(3, 1fr); */
+  /* grid-template-rows: repeat(5, 1fr); */
+  gap: 6px;
+  flex: 1;
+  width: min(350px, 100%);
+}
+
+.kbo > * {
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.kbo > .full {
+  grid-column: 1 / 4;
+}
+
+.kbo > input {
+  border: solid 2px var(--blue);
+}
+
+.kbo > #check {
+  background-color: var(--blue);
+  color: var(--light-gray);
+}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>SingleNet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script>
+      "use strict";
+      var ui;
+      //var quiz;
+      class Quiz {
+        netMasks = [0xffffff00, 0xffff0000, 0xff000000];
+
+        nuovo() {
+          this.netMask =
+            this.netMasks[Math.floor(Math.random() * this.netMasks.length)];
+          this.IP = Math.floor(Math.random() * 0xf000000);
+          this.netAddr = this.calcolaNetAddr(this.IP, this.netMask);
+          this.firstAddr = this.calcolaFirstAddr(this.IP, this.netMask);
+          this.lastAddr = this.calcolaLastAddr(this.IP, this.netMask);
+          this.broadAddr = this.calcolaBroadAddr(this.IP, this.netMask);
+        }
+
+        calcolaNetAddr(ip, netMask) {
+          return ip & netMask;
+        }
+
+        calcolaFirstAddr(ip, netMask) {
+          return (ip & netMask) + 1;
+        }
+
+        calcolaLastAddr(ip, netMask) {
+          return (ip & netMask) + (0xffffffff & ~netMask) - 1;
+        }
+
+        calcolaBroadAddr(ip, netMask) {
+          return (ip & netMask) + (0xffffffff & ~netMask);
+        }
+
+        converteInDottedDecimal(x) {
+          return (
+            this.ottetto(x, 1) +
+            "." +
+            this.ottetto(x, 2) +
+            "." +
+            this.ottetto(x, 3) +
+            "." +
+            this.ottetto(x, 4)
+          );
+        }
+
+        ottetto(x, n) {
+          return (x >> ((4 - n) * 8)) & 0xff;
+        }
+
+        correttoNetAddr(netAddr) {
+          return this.converteInDottedDecimal(this.netAddr) == netAddr;
+        }
+
+        correttoFirstAddr(firstAddr) {
+          return this.converteInDottedDecimal(this.firstAddr) == firstAddr;
+        }
+
+        correttoLastAddr(lastAddr) {
+          return this.converteInDottedDecimal(this.lastAddr) == lastAddr;
+        }
+
+        correttoBroadAddr(broadAddr) {
+          return this.converteInDottedDecimal(this.broadAddr) == broadAddr;
+        }
+
+        getDottedIP() {
+          return this.converteInDottedDecimal(this.IP);
+        }
+
+        getDottedNetMask() {
+          return this.converteInDottedDecimal(this.netMask);
+        }
+      }
+
+      class UI {
+        constructor() {
+          this.IP = document.getElementById("IP");
+          this.netMask = document.getElementById("netMask");
+          this.netAddr = document.getElementById("netAddr");
+          this.firstAddr = document.getElementById("firstAddr");
+          this.lastAddr = document.getElementById("lastAddr");
+          this.broadAddr = document.getElementById("broadAddr");
+
+          this.quiz = new Quiz();
+          this.quiz.nuovo();
+          this.mostraIPeNetMask();
+          this.rendiEditabile(this.netAddr);
+
+          this.stati = {
+            GIOCA: 1,
+            ASPETTA_CLICK_UTENTE_PER_NUOVO_QUIZ: 2,
+          };
+          //Object.freeze(stati);
+
+          this.stato = this.stati.GIOCA;
+
+          this.alert = document.getElementById("alert");
+        }
+
+        mostraIPeNetMask() {
+          this.IP.innerHTML = this.quiz.getDottedIP();
+          this.netMask.innerHTML = this.quiz.getDottedNetMask();
+        }
+
+        aggiornaIP(s) {
+          this.IP.innerHTML = s;
+        }
+
+        aggiornaNetMask(s) {
+          this.netMask.innerHTML = s;
+        }
+
+        onButtonClick() {
+          if (event.target.value == "del") {
+            this.campoEditatoDaUtente.innerHTML =
+              this.campoEditatoDaUtente.innerHTML.slice(
+                0,
+                this.campoEditatoDaUtente.innerHTML.length - 1
+              );
+            return;
+          }
+          this.campoEditatoDaUtente.innerHTML += event.target.value;
+        }
+
+        onInputClick() {
+          this.campoEditatoDaUtente.style.border = "";
+          this.rendiEditabile(event.target);
+        }
+
+        segnaErrato(campo) {
+          campo.style.border = "solid 3px #ff0000";
+        }
+
+        segnaCorretto(campo) {
+          campo.style.border = "solid 3px #00FF00";
+        }
+
+        rendiEditabile(campo) {
+          this.campoEditatoDaUtente = campo;
+          campo.style.border = "solid 3px var(--blue)";
+        }
+
+        controlla() {
+          let numero_risposte_esatte = 0;
+          if (this.quiz.correttoNetAddr(this.netAddr.innerHTML)) {
+            this.segnaCorretto(this.netAddr);
+            numero_risposte_esatte++;
+          } else {
+            this.segnaErrato(this.netAddr);
+          }
+
+          if (this.quiz.correttoFirstAddr(this.firstAddr.innerHTML)) {
+            this.segnaCorretto(this.firstAddr);
+            numero_risposte_esatte++;
+          } else {
+            this.segnaErrato(this.firstAddr);
+          }
+
+          if (this.quiz.correttoLastAddr(this.lastAddr.innerHTML)) {
+            this.segnaCorretto(this.lastAddr);
+            numero_risposte_esatte++;
+          } else {
+            this.segnaErrato(this.lastAddr);
+          }
+
+          if (this.quiz.correttoBroadAddr(this.broadAddr.innerHTML)) {
+            this.segnaCorretto(this.broadAddr);
+            numero_risposte_esatte++;
+          } else {
+            this.segnaErrato(this.broadAddr);
+          }
+
+          if (numero_risposte_esatte == 4) {
+            this.bloccaGiocoInAttesaDiUnclick();
+          }
+        }
+
+        bloccaGiocoInAttesaDiUnclick() {
+          this.stato = this.stati.ASPETTA_CLICK_UTENTE_PER_NUOVO_QUIZ;
+          this.alert.style["display"] = "block";
+        }
+
+        sbloccaIlGioco() {
+          this.stato = this.stati.GIOCA;
+          this.alert.style["display"] = "none";
+          this.quiz.nuovo();
+          this.mostraIPeNetMask();
+          this.pulisciCampo(this.netAddr);
+          this.pulisciCampo(this.firstAddr);
+          this.pulisciCampo(this.lastAddr);
+          this.pulisciCampo(this.broadAddr);
+        }
+
+        pulisciCampo(campo) {
+          campo.innerHTML = "";
+          campo.style.border = "";
+        }
+      }
+
+      function setup() {
+        ui = new UI(); //TO DO creare locale ..
+      }
+    </script>
+  </head>
+
+  <body onload="setup()">
+    <main class="layout">
+      <div class="ui" id="ui">
+        <div class="field">
+          <span class="label"> IP Address</span>
+          <span class="info" id="IP"></span>
+        </div>
+        <div class="field">
+          <span class="label"> NetMask</span>
+          <span class="info" id="netMask"></span>
+        </div>
+        <div class="field">
+          <span class="label"> Net Address</span>
+          <div
+            class="input"
+            id="netAddr"
+            onclick="ui.onInputClick(event)"
+          ></div>
+        </div>
+        <div class="field">
+          <span class="label"> First Address</span>
+          <div
+            class="input"
+            id="firstAddr"
+            onclick="ui.onInputClick(event)"
+          ></div>
+        </div>
+        <div class="field">
+          <span class="label"> Last Address</span
+          ><span
+            class="input"
+            id="lastAddr"
+            onclick="ui.onInputClick(event)"
+          ></span>
+        </div>
+        <div class="field">
+          <span class="label"> BroadCast</span
+          ><span
+            class="input"
+            id="broadAddr"
+            onclick="ui.onInputClick(event)"
+          ></span>
+        </div>
+      </div>
+
+      <div class="kbo">
+        <input type="button" value="7" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="8" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="9" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="4" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="5" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="6" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="1" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="2" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="3" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="." onclick="ui.onButtonClick(event)" />
+        <input type="button" value="0" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="del" onclick="ui.onButtonClick(event)" />
+        <input
+          type="button"
+          id="check"
+          class="full"
+          value="controlla"
+          onclick="ui.controlla()"
+        />
+      </div>
+      <div
+        id="alert"
+        style="
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          width: 100%;
+          height: 100%;
+          display: none;
+          z-index: 100;
+          text-align: center;
+          vertical-align: 50%;
+          color: green;
+          font-weight: bold;
+          font-size: 20vw;
+        "
+        onclick="ui.sbloccaIlGioco()"
+      >
+        OK
+      </div>
+    </main>
+  </body>
+</html>

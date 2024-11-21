@@ -22,9 +22,9 @@
           this.broadAddr = this.calcolaBroadAddr(this.IP, this.netMask);
         }
 
-        calcolaNetAddr(ip, netMask) {
-          return ip & netMask;
-        }
+                calcolaNetAddr(ip, netMask) {
+                    return ip & netMask;
+                }
 
         calcolaFirstAddr(ip, netMask) {
           return (ip & netMask) + 1;
@@ -92,6 +92,7 @@
           this.quiz.nuovo();
           this.mostraIPeNetMask();
           this.rendiEditabile(this.netAddr);
+          this.ottettoInEditing=1;
 
           this.stati = {
             GIOCA: 1,
@@ -101,8 +102,8 @@
 
           this.stato = this.stati.GIOCA;
 
-          this.alert = document.getElementById("alert");
-        }
+                    this.alert = document.getElementById("alert");
+                }
 
         mostraIPeNetMask() {
           this.IP.innerHTML = this.quiz.getDottedIP();
@@ -115,6 +116,16 @@
 
         aggiornaNetMask(s) {
           this.netMask.innerHTML = s;
+        }
+
+        onOctectClick() {
+          if (this.ottettoInEditing > 4) return;
+
+          this.campoEditatoDaUtente.innerHTML +=
+                  this.quiz.converteInDottedDecimal(this.quiz.IP).split(".")[
+                  this.ottettoInEditing - 1
+                  ] + (this.ottettoInEditing == 4 ? " " : ".");
+            this.ottettoInEditing++;
         }
 
         onButtonClick() {
@@ -256,6 +267,7 @@
       </div>
 
       <div class="kbo">
+        <input type="button" class="full" value="=oct" onclick="ui.onOctectClick()" />
         <input type="button" value="7" onclick="ui.onButtonClick(event)" />
         <input type="button" value="8" onclick="ui.onButtonClick(event)" />
         <input type="button" value="9" onclick="ui.onButtonClick(event)" />

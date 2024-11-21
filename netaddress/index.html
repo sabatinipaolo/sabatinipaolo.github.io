@@ -118,7 +118,7 @@
           this.netMask.innerHTML = s;
         }
 
-        onOctectClick() {
+        onAddOctectClick() {
           if (this.ottettoInEditing > 4) return;
 
           this.campoEditatoDaUtente.innerHTML +=
@@ -267,7 +267,9 @@
       </div>
 
       <div class="kbo">
-        <input type="button" class="full" value="=oct" onclick="ui.onOctectClick()" />
+        <input type="button" value="+oct" onclick="ui.onAddOctectClick()" />
+        <input type="button" value="" />
+        <input type="button" value="-oct" onclick="" />
         <input type="button" value="7" onclick="ui.onButtonClick(event)" />
         <input type="button" value="8" onclick="ui.onButtonClick(event)" />
         <input type="button" value="9" onclick="ui.onButtonClick(event)" />

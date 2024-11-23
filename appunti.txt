@@ -1,3 +1,38 @@
+
+
+
+
+
+
+/dev/sda1 /mnt/sda1 ntfs ro,suid,dev,exec,noauto,nouser,async 0 0
+
+/dev/sda2 /mnt/sda2 ntfs ro,suid,dev,exec,noauto,nouser,async 0 0
+
+/dev/sda3 /mnt/sda3 ntfs ro,suid,dev,exec,noauto,nouser,async 0 0
+
+
+
+
+
+
+sudo apt install openssh-server
+
+sudo nano /etc/ssh/sshd_config
+
+AllowUsers galilei
+DenyUsers studente
+
+sudo systemctl stop ssh.socket
+sudo systemctl stop ssh
+
+sudo systemctl start ssh.socket
+
+
+
+
+
+
+
 disabilitare in windows fast startup;
 disabilitare hibernazione :
  powercfg -h off

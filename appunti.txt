@@ -1,7 +1,4 @@
-
-
-
-
+sudo nano /etc/fstab
 
 
 /dev/sda1 /mnt/sda1 ntfs ro,suid,dev,exec,noauto,nouser,async 0 0
@@ -25,7 +22,7 @@ DenyUsers studente
 sudo systemctl stop ssh.socket
 sudo systemctl stop ssh
 
-sudo systemctl start ssh.socket
+sudo systemctl start ssh
 
 
 

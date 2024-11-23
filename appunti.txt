@@ -1,3 +1,17 @@
+
+
+
+
+/dev/sda1 /mnt/sda1 ntfs ro,suid,dev,exec,noauto,nouser,async 0 0
+
+/dev/sda2 /mnt/sda2 ntfs ro,suid,dev,exec,noauto,nouser,async 0 0
+
+/dev/sda3 /mnt/sda3 ntfs ro,suid,dev,exec,noauto,nouser,async 0 0
+
+
+
+
+
 disabilitare in windows fast startup;
 disabilitare hibernazione :
  powercfg -h off

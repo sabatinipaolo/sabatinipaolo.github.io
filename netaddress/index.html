@@ -92,7 +92,9 @@
           this.quiz.nuovo();
           this.mostraIPeNetMask();
           this.rendiEditabile(this.netAddr);
-          this.ottettoInEditing=1;
+          this.numOttettoInEditing=1;
+          this.ottettoIniziato=false;
+          
 
           this.stati = {
             GIOCA: 1,
@@ -119,42 +121,93 @@
         }
 
         onAddOctectClick() {
-          if (this.ottettoInEditing > 4) return;
 
-          this.campoEditatoDaUtente.innerHTML +=
-                  this.quiz.converteInDottedDecimal(this.quiz.IP).split(".")[
-                  this.ottettoInEditing - 1
-                  ] + (this.ottettoInEditing == 4 ? " " : ".");
-            this.ottettoInEditing++;
+          let campo=this.campoEditatoDaUtente.innerHTML;
+
+          let ottettoDaIP=this.quiz.converteInDottedDecimal(this.quiz.IP).split(".")[
+                  this.numOttettoInEditing - 1
+                  ];
+
+          if (this.ottettoIniziato){
+              //riimuove i caratteri scritti dopo l'ultimo punto 
+              campo=campo.slice(0, campo.lastIndexOf("."));
+          };
+
+
+          this.campoEditatoDaUtente.innerHTML = campo + ottettoDaIP;
+          this.ottettoIniziato=false;
+          
+          if (this.numOttettoInEditing < 4 ) {
+              this.campoEditatoDaUtente.innerHTML += "."
+              this.numOttettoInEditing ++;
+        
+          }
         }
 
         onDelOctectClick() {
-          if (this.ottettoInEditing ==1 ){
+
+          
+          if (this.numOttettoInEditing ==1 ){
             this.campoEditatoDaUtente.innerHTML = "";
+            this.ottettoIniziato=false;
             return
           }
+
+          let campo= this.campoEditatoDaUtente.innerHTML;
           
-          let appo=this.campoEditatoDaUtente.innerHTML.split(".",this.ottettoInEditing-2);
-          this.ottettoInEditing--
+          if (campo.charAt(campo.length -1)=="."){
+            this.campoEditatoDaUtente.innerHTML = campo.substring(0, campo.length - 1);
+            this.numOttettoInEditing--
+
+          }
+          
+          let appo=this.campoEditatoDaUtente.innerHTML.split(".",this.numOttettoInEditing-1);
+          if (this.numOttettoInEditing>1) this.numOttettoInEditing --
 
           this.campoEditatoDaUtente.innerHTML = appo.join(".");
+          this.ottettoIniziato=false;
+        }
+
+        onPointClick(){
+          let appo=this.campoEditatoDaUtente.innerHTML;
+ 
+          if (appo.length == 0) return;
+          if (appo.charAt(appo.length - 1) == ".") return;
+          if (this.numOttettoInEditing==4) return;
+
+          this.campoEditatoDaUtente.innerHTML = appo + ".";
+          this.numOttettoInEditing ++;
+          this.ottettoIniziato=false;
+        }
+
+        onDelClick(){
+          let appo=this.campoEditatoDaUtente.innerHTML;
+          if (appo.charAt(appo.length-1)=="."){ 
+              this.numOttettoInEditing--;
+              this.ottettoIniziato=true;
+          }
+
+          this.campoEditatoDaUtente.innerHTML =
+              this.campoEditatoDaUtente.innerHTML.slice(
+                0,
+              this.campoEditatoDaUtente.innerHTML.length - 1
+              );
         }
 
         onButtonClick() {
-          if (event.target.value == "del") {
-            this.campoEditatoDaUtente.innerHTML =
-              this.campoEditatoDaUtente.innerHTML.slice(
-                0,
-                this.campoEditatoDaUtente.innerHTML.length - 1
-              );
-            return;
-          }
+
+          if (this.campoEditatoDaUtente.innerHTML.length == 0 ) this.ottettoIniziato = true; 
+          if (this.campoEditatoDaUtente.innerHTML.charAt( this.campoEditatoDaUtente.innerHTML.length -1 )==".") this.ottettoIniziato = true;
+
+          
           this.campoEditatoDaUtente.innerHTML += event.target.value;
         }
 
         onInputClick() {
           this.campoEditatoDaUtente.style.border = "";
           this.rendiEditabile(event.target);
+          this.numOttettoInEditing=1;
+
         }
 
         segnaErrato(campo) {
@@ -291,9 +344,9 @@
         <input type="button" value="1" onclick="ui.onButtonClick(event)" />
         <input type="button" value="2" onclick="ui.onButtonClick(event)" />
         <input type="button" value="3" onclick="ui.onButtonClick(event)" />
-        <input type="button" value="." onclick="ui.onButtonClick(event)" />
+        <input type="button" value="." onclick="ui.onPointClick()" />
         <input type="button" value="0" onclick="ui.onButtonClick(event)" />
-        <input type="button" value="del" onclick="ui.onButtonClick(event)" />
+        <input type="button" value="del" onclick="ui.onDelClick()" />
         <input
           type="button"
           id="check"

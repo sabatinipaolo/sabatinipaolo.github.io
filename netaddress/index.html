@@ -22,9 +22,9 @@
           this.broadAddr = this.calcolaBroadAddr(this.IP, this.netMask);
         }
 
-                calcolaNetAddr(ip, netMask) {
-                    return ip & netMask;
-                }
+        calcolaNetAddr(ip, netMask) {
+          return ip & netMask;
+        }
 
         calcolaFirstAddr(ip, netMask) {
           return (ip & netMask) + 1;
@@ -83,18 +83,41 @@
         constructor() {
           this.IP = document.getElementById("IP");
           this.netMask = document.getElementById("netMask");
-          this.netAddr = document.getElementById("netAddr");
-          this.firstAddr = document.getElementById("firstAddr");
-          this.lastAddr = document.getElementById("lastAddr");
-          this.broadAddr = document.getElementById("broadAddr");
+          
+          this.netAddr={};
+          this.netAddr.ele = document.getElementById("netAddr");
+          this.netAddr.ottettoIniziato = false;
+          this.netAddr.numOttettoInEditing =1;
+          
+          this.firstAddr={};
+          this.firstAddr.ele = document.getElementById("firstAddr");
+          this.firstAddr.ottettoIniziato = false; 
+          this.firstAddr.numOttettoInEditing = 1;
+                    
+          this.lastAddr={};
+          this.lastAddr.ele = document.getElementById("lastAddr");
+          this.lastAddr.ottettoIniziato = false;
+          this.lastAddr.numOttettoInEditing  =1;
+
+          this.broadAddr={};
+          this.broadAddr.ele = document.getElementById("broadAddr");
+          this.broadAddr.ottettoIniziato = false;
+          this.broadAddr.numOttettoInEditing = 1;
+
+
+          this.getCampoById =[];
+          this.getCampoById["netAddr"]=this.netAddr;
+          this.getCampoById["firstAddr"]=this.firstAddr;
+          this.getCampoById["lastAddr"]=this.lastAddr;
+          this.getCampoById["broadAddr"]=this.broadAddr;
+
+
 
           this.quiz = new Quiz();
           this.quiz.nuovo();
           this.mostraIPeNetMask();
-          this.rendiEditabile(this.netAddr);
-          this.numOttettoInEditing=1;
-          this.ottettoIniziato=false;
-          
+          this.rendiEditabile("netAddr");
+         
 
           this.stati = {
             GIOCA: 1,
@@ -103,9 +126,9 @@
           //Object.freeze(stati);
 
           this.stato = this.stati.GIOCA;
+          this.alert = document.getElementById("alert");
 
-                    this.alert = document.getElementById("alert");
-                }
+        }
 
         mostraIPeNetMask() {
           this.IP.innerHTML = this.quiz.getDottedIP();
@@ -122,91 +145,88 @@
 
         onAddOctectClick() {
 
-          let campo=this.campoEditatoDaUtente.innerHTML;
+          //let campo=this.campoEditatoDaUtente.innerHTML;
+          let campo=this.campoEditatoDaUtente;
 
           let ottettoDaIP=this.quiz.converteInDottedDecimal(this.quiz.IP).split(".")[
-                  this.numOttettoInEditing - 1
+                  campo.numOttettoInEditing - 1
                   ];
 
-          if (this.ottettoIniziato){
+          if (campo.ottettoIniziato){
               //riimuove i caratteri scritti dopo l'ultimo punto 
-              campo=campo.slice(0, campo.lastIndexOf("."));
+              campo.ele.innerHTML=campo.ele.innerHTML.slice(0, campo.ele.innerHTML.lastIndexOf(".")+1);
           };
 
 
-          this.campoEditatoDaUtente.innerHTML = campo + ottettoDaIP;
-          this.ottettoIniziato=false;
+          campo.ele.innerHTML = campo.ele.innerHTML + ottettoDaIP;
           
-          if (this.numOttettoInEditing < 4 ) {
-              this.campoEditatoDaUtente.innerHTML += "."
-              this.numOttettoInEditing ++;
-        
+          
+          if (campo.numOttettoInEditing < 4 ) {
+              campo.ele.innerHTML += "."
+              campo.numOttettoInEditing ++;
+              campo.ottettoIniziato=false;
           }
+          else{
+              campo.ottettoIniziato=true;
+          }
+
         }
 
         onDelOctectClick() {
 
+          let campo=this.campoEditatoDaUtente;
           
-          if (this.numOttettoInEditing ==1 ){
-            this.campoEditatoDaUtente.innerHTML = "";
-            this.ottettoIniziato=false;
-            return
-          }
+          if ( ! campo.ottettoIniziato) return;
 
-          let campo= this.campoEditatoDaUtente.innerHTML;
-          
-          if (campo.charAt(campo.length -1)=="."){
-            this.campoEditatoDaUtente.innerHTML = campo.substring(0, campo.length - 1);
-            this.numOttettoInEditing--
+          //toglie i caratteri dopo l'ultimopunto
+          campo.ele.innerHTML=campo.ele.innerHTML.slice(0, campo.ele.innerHTML.lastIndexOf(".")+1);
 
-          }
-          
-          let appo=this.campoEditatoDaUtente.innerHTML.split(".",this.numOttettoInEditing-1);
-          if (this.numOttettoInEditing>1) this.numOttettoInEditing --
-
-          this.campoEditatoDaUtente.innerHTML = appo.join(".");
           this.ottettoIniziato=false;
         }
 
         onPointClick(){
-          let appo=this.campoEditatoDaUtente.innerHTML;
+          let campo=this.campoEditatoDaUtente;
  
-          if (appo.length == 0) return;
-          if (appo.charAt(appo.length - 1) == ".") return;
-          if (this.numOttettoInEditing==4) return;
+          if (campo.ele.innerHTML.length == 0) return;
+          if (campo.ele.innerHTML.charAt(campo.ele.innerHTML.length - 1) == ".") return;
+          if (campo.numOttettoInEditing==4) return;
 
-          this.campoEditatoDaUtente.innerHTML = appo + ".";
-          this.numOttettoInEditing ++;
-          this.ottettoIniziato=false;
+          campo.ele.innerHTML += ".";
+          campo.numOttettoInEditing ++;
+          campo.ottettoIniziato=false;
         }
 
         onDelClick(){
-          let appo=this.campoEditatoDaUtente.innerHTML;
-          if (appo.charAt(appo.length-1)=="."){ 
-              this.numOttettoInEditing--;
-              this.ottettoIniziato=true;
+          let campo = this.campoEditatoDaUtente
+          
+          if (campo.ele.innerHTML.charAt(campo.ele.innerHTML.length-1)=="."){ 
+              campo.numOttettoInEditing--;
+              campo.ottettoIniziato=true;
           }
 
-          this.campoEditatoDaUtente.innerHTML =
-              this.campoEditatoDaUtente.innerHTML.slice(
+          campo.ele.innerHTML =
+              campo.ele.innerHTML.slice(
                 0,
-              this.campoEditatoDaUtente.innerHTML.length - 1
+              campo.ele.innerHTML.length - 1
               );
         }
 
         onButtonClick() {
+          
+          let campo=this.campoEditatoDaUtente;
 
-          if (this.campoEditatoDaUtente.innerHTML.length == 0 ) this.ottettoIniziato = true; 
-          if (this.campoEditatoDaUtente.innerHTML.charAt( this.campoEditatoDaUtente.innerHTML.length -1 )==".") this.ottettoIniziato = true;
+
+          if (campo.ele.innerHTML.length == 0 ) campo.ottettoIniziato = true; 
+          if (campo.ele.innerHTML.charAt( campo.ele.innerHTML.length -1 )==".") campo.ottettoIniziato = true;
 
           
-          this.campoEditatoDaUtente.innerHTML += event.target.value;
+          campo.ele.innerHTML += event.target.value;
         }
 
         onInputClick() {
-          this.campoEditatoDaUtente.style.border = "";
-          this.rendiEditabile(event.target);
-          this.numOttettoInEditing=1;
+          this.campoEditatoDaUtente.ele.style.border = "";
+          this.rendiEditabile(event.target.id);
+          //event.target.numOttettoInEditing=1; //TODO: ?????
 
         }
 
@@ -218,39 +238,41 @@
           campo.style.border = "solid 3px #00FF00";
         }
 
-        rendiEditabile(campo) {
-          this.campoEditatoDaUtente = campo;
-          campo.style.border = "solid 3px var(--blue)";
+        rendiEditabile(id) {
+
+          this.campoEditatoDaUtente = this.getCampoById[id];
+          this.campoEditatoDaUtente.ele.style.border = "solid 3px var(--blue)";
+
         }
 
         controlla() {
           let numero_risposte_esatte = 0;
-          if (this.quiz.correttoNetAddr(this.netAddr.innerHTML)) {
-            this.segnaCorretto(this.netAddr);
+          if (this.quiz.correttoNetAddr(this.netAddr.ele.innerHTML)) {
+            this.segnaCorretto(this.netAddr.ele);
             numero_risposte_esatte++;
           } else {
-            this.segnaErrato(this.netAddr);
+            this.segnaErrato(this.netAddr.ele);
           }
 
-          if (this.quiz.correttoFirstAddr(this.firstAddr.innerHTML)) {
-            this.segnaCorretto(this.firstAddr);
+          if (this.quiz.correttoFirstAddr(this.firstAddr.ele.innerHTML)) {
+            this.segnaCorretto(this.firstAddr.ele);
             numero_risposte_esatte++;
           } else {
-            this.segnaErrato(this.firstAddr);
+            this.segnaErrato(this.firstAddr.ele);
           }
 
-          if (this.quiz.correttoLastAddr(this.lastAddr.innerHTML)) {
-            this.segnaCorretto(this.lastAddr);
+          if (this.quiz.correttoLastAddr(this.lastAddr.ele.innerHTML)) {
+            this.segnaCorretto(this.lastAddr.ele);
             numero_risposte_esatte++;
           } else {
-            this.segnaErrato(this.lastAddr);
+            this.segnaErrato(this.lastAddr.ele);
           }
 
-          if (this.quiz.correttoBroadAddr(this.broadAddr.innerHTML)) {
-            this.segnaCorretto(this.broadAddr);
+          if (this.quiz.correttoBroadAddr(this.broadAddr.ele.innerHTML)) {
+            this.segnaCorretto(this.broadAddr.ele);
             numero_risposte_esatte++;
           } else {
-            this.segnaErrato(this.broadAddr);
+            this.segnaErrato(this.broadAddr.ele);
           }
 
           if (numero_risposte_esatte == 4) {
@@ -272,11 +294,18 @@
           this.pulisciCampo(this.firstAddr);
           this.pulisciCampo(this.lastAddr);
           this.pulisciCampo(this.broadAddr);
+          this.rendiEditabile("netAddr");
+          
         }
 
         pulisciCampo(campo) {
-          campo.innerHTML = "";
-          campo.style.border = "";
+          campo.ele.innerHTML = "";
+          campo.ele.style.border = "";
+
+          campo.ottettoIniziato = false;
+          campo.numOttettoInEditing =1;
+
+
         }
       }
 
@@ -322,7 +351,7 @@
           ></span>
         </div>
         <div class="field">
-          <span class="label"> BroadCast</span
+          <span class="label"> BroadCast Addr.</span
           ><span
             class="input"
             id="broadAddr"

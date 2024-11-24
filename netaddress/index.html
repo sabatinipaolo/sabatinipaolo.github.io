@@ -316,8 +316,20 @@
   </head>
 
   <body onload="setup()">
-    <main class="layout">
+    <main class="layout">       
+       <div >
+            <input type="radio" id="/8/16/24" name="conf" value="/8/16/24">
+              <label for="/8/16/24">/8/16/24</label>
+            <input type="radio" id="/24_sub" name="conf" value="/24_sub">
+              <label for="/24_sub"> sub /24 </label>
+            <input type="radio" id="/16_sub" name="conf" value="/16_sub">
+              <label for="/16_sub">/16_sub</label>
+            <input type="radio" id="/8_sub" name="conf" value="/8_sub">
+              <label for="/8_sub">/8_sub</label>
+
+        </div>
       <div class="ui" id="ui">
+
         <div class="field">
           <span class="label"> IP Address</span>
           <span class="info" id="IP"></span>

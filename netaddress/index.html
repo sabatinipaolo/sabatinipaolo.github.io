@@ -10,11 +10,30 @@
       var ui;
       //var quiz;
       class Quiz {
-        netMasks = [0xffffff00, 0xffff0000, 0xff000000];
+        constructor(){
+         //netMasks_8_16_24 = [0xffffff00, 0xffff0000, 0xff000000];
+        // netMasks_24_sub = [0xffffff00, 0xffff0000, 0xff000000];
+        // netMasks = [0xffffff00, 0xffff0000, 0xff000000];
+        this.netMasks=[];
 
-        nuovo() {
+        this.netMasks["8_16_24"]= [0xffffff00, 0xffff0000, 0xff000000];
+        this.netMasks["24_sub"]= [
+          0xffffff80, 0xffffffc0, 0xffffffe0, 0xfffffff0, 0xfffffff8,
+          0xfffffffc, 0xfffffffe
+        ];
+        this.netMasks["16_sub"]= [
+          0xffff8000, 0xffffc000, 0xffffe000, 0xfffff000, 0xfffff800,
+          0xfffffc00, 0xfffffe00
+        ];
+        this.netMasks["8_sub"]= [
+          0xff800000, 0xffc00000, 0xffe00000, 0xfff00000, 0xfff80000,
+          0xfffc0000, 0xfffe0000
+        ];
+        this.conf = "8_sub";
+      }
+        nuovo(modo) {
           this.netMask =
-            this.netMasks[Math.floor(Math.random() * this.netMasks.length)];
+            this.netMasks[modo][Math.floor(Math.random() * this.netMasks[modo].length)];
           this.IP = Math.floor(Math.random() * 0xf000000);
           this.netAddr = this.calcolaNetAddr(this.IP, this.netMask);
           this.firstAddr = this.calcolaFirstAddr(this.IP, this.netMask);
@@ -114,7 +133,8 @@
 
 
           this.quiz = new Quiz();
-          this.quiz.nuovo();
+          this.modo="8_16_24"
+          this.quiz.nuovo(this.modo);
           this.mostraIPeNetMask();
           this.rendiEditabile("netAddr");
          
@@ -288,7 +308,7 @@
         sbloccaIlGioco() {
           this.stato = this.stati.GIOCA;
           this.alert.style["display"] = "none";
-          this.quiz.nuovo();
+          this.quiz.nuovo(this.modo);
           this.mostraIPeNetMask();
           this.pulisciCampo(this.netAddr);
           this.pulisciCampo(this.firstAddr);
@@ -307,6 +327,17 @@
 
 
         }
+        confChange(){
+          this.modo = event.target.id;
+          this.quiz.nuovo(this.modo);
+          this.mostraIPeNetMask();
+          this.pulisciCampo(this.netAddr);
+          this.pulisciCampo(this.firstAddr);
+          this.pulisciCampo(this.lastAddr);
+          this.pulisciCampo(this.broadAddr);
+          this.rendiEditabile("netAddr");
+
+        }
       }
 
       function setup() {
@@ -317,15 +348,15 @@
 
   <body onload="setup()">
     <main class="layout">       
-       <div >
-            <input type="radio" id="/8/16/24" name="conf" value="/8/16/24">
-              <label for="/8/16/24">/8/16/24</label>
-            <input type="radio" id="/24_sub" name="conf" value="/24_sub">
-              <label for="/24_sub"> sub /24 </label>
-            <input type="radio" id="/16_sub" name="conf" value="/16_sub">
-              <label for="/16_sub">/16_sub</label>
-            <input type="radio" id="/8_sub" name="conf" value="/8_sub">
-              <label for="/8_sub">/8_sub</label>
+       <div id="selectModo" >
+            <input type="radio" id="8_16_24" checked name="conf" value="8_16_24" onclick="ui.confChange(event)">
+              <label for="8_16_24">/8/16/24</label>
+            <input type="radio" id="24_sub" name="conf" value="24_sub" onclick="ui.confChange(event)">
+              <label for="24_sub"> sub /24 </label>
+            <input type="radio" id="16_sub" name="conf" value="16_sub" onclick="ui.confChange(event)">
+              <label for="16_sub">sub 16_</label>
+            <input type="radio" id="8_sub" name="conf" value="8_sub" onclick="ui.confChange(event)">
+              <label for="8_sub">sub /8</label>
 
         </div>
       <div class="ui" id="ui">

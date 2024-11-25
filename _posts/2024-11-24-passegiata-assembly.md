@@ -157,3 +157,22 @@ questo sito è interessantissimo :
 
 [https://godbolt.org/](https://godbolt.org/)
 
+
+
+riferimenti:
+
+
+
+[https://software.intel.com/en-us/download/intel-64-and-ia-32-architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4](https://software.intel.com/en-us/download/intel-64-and-ia-32-architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4)
+
+un riassunto:
+
+[https://www.felixcloutier.com/x86/](https://www.felixcloutier.com/x86/)
+
+un interessante sito per chi ha velleità di spaccareiBitInQuattro
+
+https://www.0de5.net/explore
+
+UNcorso completo su assembly x86
+[http://www.c-jump.com/CIS77/ASM/Assembly/index.html](http://www.c-jump.com/CIS77/ASM/Assembly/index.html)
+

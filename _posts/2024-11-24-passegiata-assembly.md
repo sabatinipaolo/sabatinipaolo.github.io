@@ -20,7 +20,11 @@ L'insieme delle istruzioni che è in grado di eseguire una cpu prende il nome di
 - Per essere eseguito un programma deve essere caricato in RAM 
 
 
-Il simulatore online : si tratta di un simulatore di un piccolo sistema con una CPU a 8bit, e una memoria di 256 Byte (chi sa perché..) 
+**Il simulatore online :**
+[https://sabatinipaolo.github.io/assembler-simulator/
+](https://sabatinipaolo.github.io/assembler-simulator/
+)
+ si tratta di un simulatore di un piccolo sistema con una CPU a 8bit, e una memoria di 256 Byte (chi sa perché..) 
 la CPU ha 4 registri ad uso generale chiamati A B C D , IP Instruction Pointer, SP stack Pointer  e dei flag Z zero, C carry, F Fault .
 
 ecc. ecc. TODO: sviluppare...

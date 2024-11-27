@@ -2,7 +2,7 @@
 <html lang="it">
   <head>
     <meta charset="utf-8" />
-    <title>SingleNet</title>
+    <title>Net Address</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <script>
@@ -19,7 +19,7 @@
         this.netMasks["8_16_24"]= [0xffffff00, 0xffff0000, 0xff000000];
         this.netMasks["24_sub"]= [
           0xffffff80, 0xffffffc0, 0xffffffe0, 0xfffffff0, 0xfffffff8,
-          0xfffffffc, 0xfffffffe
+          0xfffffffc
         ];
         this.netMasks["16_sub"]= [
           0xffff8000, 0xffffc000, 0xffffe000, 0xfffff000, 0xfffff800,
@@ -34,7 +34,9 @@
         nuovo(modo) {
           this.netMask =
             this.netMasks[modo][Math.floor(Math.random() * this.netMasks[modo].length)];
-          this.IP = Math.floor(Math.random() * 0xf000000);
+          // 223.255.255.255 = 0xDFFFFFFF (indirizzi ip )
+          // 1.0.0.0 = 0x01000000 ( i rpimi dopo gli indirizzi zero ..)
+          this.IP = Math.floor(Math.random() * ( 0xdfffffff - 0x01000000) + 0x01000000);
           this.netAddr = this.calcolaNetAddr(this.IP, this.netMask);
           this.firstAddr = this.calcolaFirstAddr(this.IP, this.netMask);
           this.lastAddr = this.calcolaLastAddr(this.IP, this.netMask);
@@ -130,10 +132,13 @@
           this.getCampoById["lastAddr"]=this.lastAddr;
           this.getCampoById["broadAddr"]=this.broadAddr;
 
-
-
+          
+          
+          this.modo="8_16_24";
+          document.getElementById("8_16_24").checked = true;
+         
           this.quiz = new Quiz();
-          this.modo="8_16_24"
+          
           this.quiz.nuovo(this.modo);
           this.mostraIPeNetMask();
           this.rendiEditabile("netAddr");

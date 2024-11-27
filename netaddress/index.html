@@ -197,17 +197,32 @@
 
         }
 
+        ultimoCarattereIsUnPunto(){
+           return ( this.campoEditatoDaUtente.ele.innerHTML.charAt( this.campoEditatoDaUtente.ele.innerHTML.length - 1) ==".");
+        }
+
+        toglieIlpuntoFinale(){
+          this.campoEditatoDaUtente.ele.innerHTML=this.campoEditatoDaUtente.ele.innerHTML.slice(0, -1);
+        }
+        
         onDelOctectClick() {
 
           let campo=this.campoEditatoDaUtente;
           
-          if ( ! campo.ottettoIniziato) return;
+          //if ( ! campo.ottettoIniziato) return;
+          if ( this.ultimoCarattereIsUnPunto()){
+            this.toglieIlpuntoFinale();
+            campo.numOttettoInEditing-- ;
 
+          } 
           //toglie i caratteri dopo l'ultimopunto
           campo.ele.innerHTML=campo.ele.innerHTML.slice(0, campo.ele.innerHTML.lastIndexOf(".")+1);
 
-          this.ottettoIniziato=false;
+          campo.ottettoIniziato=false;
+
         }
+
+
 
         onPointClick(){
           let campo=this.campoEditatoDaUtente;

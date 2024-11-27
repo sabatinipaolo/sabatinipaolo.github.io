@@ -34,7 +34,9 @@
         nuovo(modo) {
           this.netMask =
             this.netMasks[modo][Math.floor(Math.random() * this.netMasks[modo].length)];
-          this.IP = Math.floor(Math.random() * 0xf000000);
+          // 223.255.255.255 = 0xDFFFFFFF (indirizzi ip )
+          // 1.0.0.0 = 0x01000000 ( i rpimi dopo gli indirizzi zero ..)
+          this.IP = Math.floor(Math.random() * ( 0xdfffffff - 0x01000000) + 0x01000000);
           this.netAddr = this.calcolaNetAddr(this.IP, this.netMask);
           this.firstAddr = this.calcolaFirstAddr(this.IP, this.netMask);
           this.lastAddr = this.calcolaLastAddr(this.IP, this.netMask);
@@ -195,17 +197,32 @@
 
         }
 
+        ultimoCarattereIsUnPunto(){
+           return ( this.campoEditatoDaUtente.ele.innerHTML.charAt( this.campoEditatoDaUtente.ele.innerHTML.length - 1) ==".");
+        }
+
+        toglieIlpuntoFinale(){
+          this.campoEditatoDaUtente.ele.innerHTML=this.campoEditatoDaUtente.ele.innerHTML.slice(0, -1);
+        }
+        
         onDelOctectClick() {
 
           let campo=this.campoEditatoDaUtente;
           
-          if ( ! campo.ottettoIniziato) return;
+          //if ( ! campo.ottettoIniziato) return;
+          if ( this.ultimoCarattereIsUnPunto()){
+            this.toglieIlpuntoFinale();
+            campo.numOttettoInEditing-- ;
 
+          } 
           //toglie i caratteri dopo l'ultimopunto
           campo.ele.innerHTML=campo.ele.innerHTML.slice(0, campo.ele.innerHTML.lastIndexOf(".")+1);
 
-          this.ottettoIniziato=false;
+          campo.ottettoIniziato=false;
+
         }
+
+
 
         onPointClick(){
           let campo=this.campoEditatoDaUtente;

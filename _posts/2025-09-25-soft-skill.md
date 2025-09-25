@@ -4,6 +4,8 @@ categories:
   - blog
 tags:
   - soft skill
+classes: wide
+
 
 
 permalink: /blog/soft-skill/

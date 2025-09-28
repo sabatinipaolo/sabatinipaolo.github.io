@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "controllare tentativi di login "
 categories:
   - blog

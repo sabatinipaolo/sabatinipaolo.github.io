@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "I/O redirection in linux"
 categories:
   - Blog

@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Il prompt di Bash "
 categories:
   - blog

@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Video tour sul cablaggio strutturato"
 categories:
   - Blog

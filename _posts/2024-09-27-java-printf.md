@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Java printf"
 categories:
   - Blog

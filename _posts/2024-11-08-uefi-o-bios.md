@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Il mio sistema è avviato in Uefi o BIOS?"
 categories:
   - blog

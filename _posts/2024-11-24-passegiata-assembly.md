@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Piccola passeggiata nel mondo dell'assembly, compilatori "
 categories:
   - blog

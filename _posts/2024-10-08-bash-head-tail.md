@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "linux command: head tail"
 categories:
   - Blog

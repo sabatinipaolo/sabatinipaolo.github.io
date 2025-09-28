@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Packet tracer 8.22 su Ubuntu 24.04 "
 categories:
   - blog

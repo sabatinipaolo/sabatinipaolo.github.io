@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Configurazione amministrazione remota di windows con powershell"
 categories:
   - blog

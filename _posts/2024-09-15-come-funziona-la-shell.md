@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Come funziona una shell, comandi interni esterni"
 categories:
   - blog

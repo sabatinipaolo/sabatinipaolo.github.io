@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: Inst.ne Code
 layout: default
 ---

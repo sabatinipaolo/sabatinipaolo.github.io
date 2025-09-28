@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Linux File System"
 categories:
   - blog

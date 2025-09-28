@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Welcome to Jekyll!"
 date: 3019-04-18T15:34:30-04:00
 categories:

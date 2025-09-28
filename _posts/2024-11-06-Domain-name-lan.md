@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Domain name per LAN interne "
 categories:
   - blog

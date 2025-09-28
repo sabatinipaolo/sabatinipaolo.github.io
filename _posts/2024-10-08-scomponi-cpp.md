@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "fattorizzazione di un numero"
 categories:
     - Blog

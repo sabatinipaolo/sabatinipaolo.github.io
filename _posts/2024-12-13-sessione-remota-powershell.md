@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Sessione remota di power shell"
 categories:
   - blog

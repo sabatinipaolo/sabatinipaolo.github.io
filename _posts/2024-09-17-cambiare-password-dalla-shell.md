@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Cambiare password dalla shell, comando passwd "
 categories:
   - blog

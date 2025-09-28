@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "esercizio sui caratteri jolly "
 categories:
   - blog

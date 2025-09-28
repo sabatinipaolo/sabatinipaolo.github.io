@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "dual boot windows10 ubuntu "
 categories:
   - blog

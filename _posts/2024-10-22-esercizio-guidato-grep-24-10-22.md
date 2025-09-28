@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Esercitazione grep "
 categories:
   - blog

@@ -1,10 +1,11 @@
 ---
+classes: wide
 title: "Soft Skill"
 categories:
   - blog
 tags:
   - soft skill
-classes: wide
+
 
 
 

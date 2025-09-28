@@ -1,4 +1,5 @@
 ---
+classes: wide
 title: "Post: Quote"
 categories:
   - Blog

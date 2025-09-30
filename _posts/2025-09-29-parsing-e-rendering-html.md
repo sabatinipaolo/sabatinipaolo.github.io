@@ -15,13 +15,16 @@ permalink: /blog/parsing-e-rendering-html/
 
 1. **HTML parsing** → Costruzione DOM
 2. **CSS parsing** → Costruzione CSSOM  
-3. **JavaScript execution** (se presente)
+3. **JavaScript execution** (se presente, blocca il parsing)
+
+<br><br>
+
 4. **Render tree** → Combinazione DOM + CSSOM
 5. **Layout** → Calcolo posizioni
 6. **Paint** → Disegno elementi
 7. **Compositing** → Unione finale
 
-##  Curiosità Tecniche
+##  Curiosità Tecniche e terminologia
 
 - **Critical Rendering Path**: È la sequenza minima di passaggi per visualizzare il contenuto
 - **Repaint/Reflow**: Quando cambia lo stile, il browser ripete layout e paint
@@ -37,3 +40,5 @@ Questo processo è estremamente ottimizzato nei browser moderni e avviene in mil
 how-browsers-work-a-deep-dive-into-the-rendering-pipeline-1gjg)
 
 [https://www.erwinhofman.com/blog/parsing-and-rendering-process-simplified/](https://www.erwinhofman.com/blog/parsing-and-rendering-process-simplified/)
+
+[https://it.javascript.info/script-async-defer](https://it.javascript.info/script-async-defer)

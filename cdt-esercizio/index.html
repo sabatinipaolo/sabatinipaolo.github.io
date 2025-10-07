@@ -118,7 +118,7 @@
         <h2>Esercizio 1: Errore di sintassi</h2>
         <p>Questo esercizio ha un errore di sintassi che impedisce al codice di eseguire correttamente.</p>
         <div class="problem-section">
-            <p>Clicca il pulsante per calcolare la somma di due numeri:</p>
+            <p>Clicca il pulsante per calcolare la somma di 3 e 9:</p>
             <button id="calculateSum">Calcola Somma</button>
             <div id="sumResult" class="result"></div>
         </div>
@@ -174,9 +174,7 @@
     </div>
 
     <script>
-        // ESERCIZIO 1: Errore di sintassi
         document.getElementById('calculateSum').addEventListener('click', function() {
-            // ERRORE: manca la virgola tra i parametri della funzione
             function addNumbers(a b) {
                 return a + b;
             }
@@ -186,7 +184,6 @@
             document.getElementById('sumResult').className = 'result success';
         });
 
-        // ESERCIZIO 2: Debug con breakpoint
         document.getElementById('calculateFactorial').addEventListener('click', function() {
             const input = parseInt(document.getElementById('factorialInput').value);
             const result = calculateFactorial(input);
@@ -195,28 +192,23 @@
         });
 
         function calculateFactorial(n) {
-            // ERRORE: questa funzione calcola male il fattoriale
-            let result = 1;
-            for (let i = 1; i <= n; i++) {
+            let result = 0;
+            for (let i = 0; i <= n; i++) {
                 result = result * i;
                 // Imposta un breakpoint qui per vedere cosa succede ad ogni iterazione
             }
             return result;
         }
 
-        // ESERCIZIO 3: Problema con eventi DOM
-        // ERRORE: Il selettore è sbagliato, dovrebbe essere '.colorButton'
         document.getElementById('colorButton').addEventListener('click', function(e) {
             const color = e.target.getAttribute('data-color');
             document.getElementById('colorDisplay').style.backgroundColor = color;
         });
 
-        // ESERCIZIO 4: Problema con caricamento asincrono
         document.getElementById('loadData').addEventListener('click', function() {
             document.getElementById('apiResult').textContent = 'Caricamento in corso...';
             document.getElementById('apiResult').className = 'result info';
             
-            // ERRORE: La Promise non gestisce correttamente gli errori
             simulateApiCall()
                 .then(data => {
                     document.getElementById('apiResult').textContent = `Dati caricati: ${JSON.stringify(data)}`;
@@ -231,17 +223,14 @@
                     if (Math.random() > 0.5) {
                         resolve({ message: "Dati caricati con successo", items: [1, 2, 3] });
                     } else {
-                        // ERRORE: Questo dovrebbe essere reject, non resolve
                         resolve({ error: "Errore nel caricamento dei dati" });
                     }
                 }, 1000);
             });
         }
 
-        // ESERCIZIO 5: Problema con manipolazione CSS
         document.getElementById('toggleContent').addEventListener('click', function() {
             const content = document.getElementById('contentToToggle');
-            // ERRORE: La logica per mostrare/nascondere è invertita
             if (content.style.display === 'none') {
                 content.style.display = 'none';
             } else {

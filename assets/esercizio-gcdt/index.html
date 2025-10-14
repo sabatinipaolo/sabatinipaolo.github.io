@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercitazione Chrome DevTools</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #4285f4;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .exercise {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .exercise h2 {
+            color: #4285f4;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .problem-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #3367d6;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            min-height: 20px;
+        }
+
+        .success {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        .error {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        .info {
+            background-color: #e8f0fe;
+            color: #1967d2;
+        }
+
+        code {
+            background-color: #f1f3f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .instructions {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function addNumbers(a, b) {
+            return a + b;
+        }
+
+        function calcola() {
+            const result = addNumbers(
+                document.getElementById("sumImput1").value,
+                document.getElementById("sumInput2").value
+            );
+            document.getElementById(
+                "sumResult"
+            ).textContent = `La somma è: ${result}`;
+            document.getElementById("sumResult").className = "result success";
+        }
+
+        function calcolaf() {
+            const input = parseInt(document.getElementById("factorialInput").value);
+            const result = calculateFactorial(input);
+            document.getElementById(
+                "factorialResult"
+            ).textContent = `Il fattoriale di ${input} è: ${result}`;
+            document.getElementById("factorialResult").className = "result success";
+        }
+
+        function calculateFactorial(n) {
+            let result = 0;
+            for (let i = 0; i <= n; i++) {
+                // Imposta un breakpoint qui per vedere cosa succede ad ogni iterazione
+                result = result * i;
+            }
+            return result;
+        }
+
+        function cambia_sfondo(e) { }
+        function setup() {
+            document.getElementById("colorButton").addEventListener("click", function (evt) {
+                const color = evt.target.getAttribute("data-color");
+                document.getElementById("colorDisplay").style.backgroundColor =
+                    color;
+            });
+
+            document.getElementById("toggleContent").addEventListener("click", function () {
+                const content = document.getElementById("contentToToggle");
+                if (content.style.display === "none") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
+</head>
+
+<body onload="setup()">
+    <header>
+        <h1>Esercitazione con Chrome DevTools</h1>
+        <p>
+            Risolvi i problemi JavaScript utilizzando gli strumenti per sviluppatori
+        </p>
+    </header>
+
+    <div class="instructions">
+        <h2>Istruzioni per l'esercitazione</h2>
+        <p>
+            Utilizza Chrome DevTools per trovare e risolvere i problemi in questa
+            pagina:
+        </p>
+        <ul>
+            <li>Apri Chrome DevTools (F12 o Ctrl+Shift+I)</li>
+            <li>Esamina la <strong>Console</strong> per vedere gli errori</li>
+            <li>
+                Utilizza il pannello <strong>Sources</strong> per impostare breakpoint
+            </li>
+            <li>
+                Analizza gli elementi HTML e CSS con il pannello
+                <strong>Elements</strong>
+            </li>
+            <li>
+                Controlla le chiamate di rete con il pannello <strong>Network</strong>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Esercizio 1: Errore di sintassi nella console -->
+    <div class="exercise">
+        <h2>Esercizio 1: Errore di sintassi</h2>
+        <p>
+            Questo esercizio ha un errore di sintassi che impedisce al codice di
+            eseguire correttamente.
+        </p>
+        <div class="problem-section">
+            <input type="text" id="sumInput1" value="3" />
+            <input type="text" id="sumInput2" value="9" />
+
+            <p>Clicca il pulsante per calcolare la somma dei due numeri</p>
+            <button id="calculateSum" onclick="calcola()">Calcola Somma</button>
+            <div id="sumResult" class="result"></div>
+        </div>
+    </div>
+
+    <!-- Esercizio 2: Debug con breakpoint -->
+    <div class="exercise">
+        <h2>Esercizio 2: Debug con breakpoint</h2>
+        <p>
+            Questo esercizio ha un bug logico. Usa i breakpoint per trovare dove il
+            calcolo va storto.
+        </p>
+        <div class="problem-section">
+            <p>Inserisci un numero per calcolare il suo fattoriale:</p>
+            <input type="number" id="factorialInput" min="0" max="10" value="5" />
+            <button id="calculateFactorial" onclick="calcolaf()">
+                Calcola Fattoriale
+            </button>
+            <div id="factorialResult" class="result"></div>
+        </div>
+    </div>
+
+    <!-- Esercizio 3: Problema con eventi DOM -->
+    <div class="exercise">
+        <h2>Esercizio 3: Problema con eventi DOM</h2>
+        <p>
+            Questo esercizio ha un problema con gli eventi del DOM. Il pulsante non
+            risponde come previsto.
+        </p>
+        <div class="problem-section">
+            <p>Clicca i pulsanti per cambiare il colore di sfondo:</p>
+            <button class="colorButton" data-color="red">Rosso</button>
+            <button class="colorButton" data-color="green">Verde</button>
+            <button class="colorButton" data-color="blue">Blu</button>
+            <div id="colorDisplay" class="result" style="height: 100px; background-color: #f0f0f0"></div>
+        </div>
+    </div>
+
+    <!-- Esercizio 4: Problema con manipolazione CSS -->
+    <div class="exercise">
+        <h2>Esercizio 4: Problema con manipolazione CSS</h2>
+        <p>
+            Questo esercizio ha un problema con la manipolazione degli stili CSS via
+            JavaScript.
+        </p>
+        <div class="problem-section">
+            <p>Clicca per mostrare/nascondere il contenuto:</p>
+            <button id="toggleContent">Mostra/Nascondi</button>
+            <div id="contentToToggle" style="
+            display: none;
+            padding: 15px;
+            background-color: #e3f2fd;
+            margin-top: 10px;
+          ">
+                <p>
+                    Questo contenuto dovrebbe apparire e scomparire quando clicchi il
+                    pulsante.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script></script>
+</body>
+
+</html>

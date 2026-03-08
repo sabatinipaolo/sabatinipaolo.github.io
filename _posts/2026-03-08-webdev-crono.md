@@ -36,5 +36,3 @@ Questa cronologia rivela un percorso affascinante:
 *   **La Grande Unificazione**: Con **Node.js** (2009), JavaScript ha infranto l'ultima barriera, conquistando il server e permettendo agli sviluppatori di utilizzare un unico linguaggio su tutta la piattaforma web . Questa convergenza ha semplificato lo sviluppo e creato un ecosistema di dimensioni inimmaginabili.
 
 La storia di JavaScript non è solo la storia di un linguaggio, ma la storia di come il web si è evoluto, diventando la piattaforma universale che conosciamo oggi.
-
-Spero che questa cronistoria comparata ti sia utile! Se desideri approfondire un'epoca specifica o il confronto con un linguaggio in particolare, non esitare a chiedere.

@@ -4,8 +4,8 @@ title: comandi cisco per configurare un dhcp server
 categories:
 - Blog
 tags:
-- 
-- 
+- cisco
+- packet tracer
 permalink: /blog/cisco-dhcp
 
 ---

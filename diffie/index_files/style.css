@@ -248,7 +248,7 @@
 			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 			position: relative;
-			overflow: hidden;
+			overflow: visible;
 		}
 
 		.card:hover {
@@ -321,6 +321,7 @@
 		.input-group {
 			margin-bottom: 1rem;
 			text-align: left;
+			position: relative;
 		}
 
 		.input-group label {
@@ -344,7 +345,7 @@
 			border: 1px solid var(--border-color);
 			border-radius: 0.75rem;
 			transition: all 0.3s ease;
-			overflow: hidden;
+			overflow: visible;
 		}
 
 		.input-wrapper input {
@@ -364,12 +365,46 @@
 			cursor: default;
 		}
 
+		/* ── Tooltip (help-text) ───────────────────────── */
 		.input-group .help-text {
-			display: block;
-			font-size: 0.75rem;
-			color: var(--text-muted);
-			margin-top: 0.35rem;
-			line-height: 1.4;
+			position: absolute;
+			top: 1.65rem;          /* just below the label */
+			left: 0;
+			transform: none;
+			width: 100%;
+			white-space: normal;
+			background: rgba(11, 19, 41, 0.97);
+			border: 1px solid var(--border-color);
+			border-radius: 0.65rem;
+			padding: 0.6rem 0.9rem;
+			font-size: 0.95rem;
+			font-family: var(--font-body);
+			color: var(--text-secondary);
+			line-height: 1.5;
+			box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+			z-index: 200;
+			/* hidden by default */
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			transition: opacity 0.2s ease, visibility 0.2s ease;
+		}
+
+		/* Arrow pointing up */
+		.input-group .help-text::before {
+			content: '';
+			position: absolute;
+			top: -6px;
+			left: 1rem;
+			border: 6px solid transparent;
+			border-bottom-color: rgba(11, 19, 41, 0.97);
+			border-top: 0;
+		}
+
+		/* Show only when hovering the label */
+		.input-group:has(label:hover) .help-text {
+			opacity: 1;
+			visibility: visible;
 		}
 
 		/* Thematic inputs */

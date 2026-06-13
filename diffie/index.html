@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script>
+			//variabili globali 
+			var AliceSecretKey ; 
+			var BobSecretKey ;
+			var parametroPubblico;
+			var chiaveDiSessione; 
+			var AlicePublicKey;
+			var BobPublicKey ;
+			var tipoFunzione="somma";
+			
+			
+			document.addEventListener("DOMContentLoaded", inizializzaGame );
+			
+			function inizializzaGame(){
+				AliceSecretKey = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
+				BobSecretKey = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
+				
+				//qui è dove Diffie Helmann viene implementato!!
+				
+				parametroPubblico = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
+				
+				AlicePublicKey= f( parametroPubblico , AliceSecretKey );
+				BobPublicKey  = f( parametroPubblico , BobSecretKey );
+				
+				// Calcolo della chiave scambiata  
+				
+				var chiaveDiSessioneA = f(  BobPublicKey  , AliceSecretKey ) ;//Alice
+				var chiaveDiSessioneB = f( AlicePublicKey , BobSecretKey )   ;//Bob 
+				chiaveDiSessione  = chiaveDiSessioneA ;
+				// Le due chiavi sono uguali ... 
+				if ( chiaveDiSessioneA != chiaveDiSessioneB ) 
+					alert (" OH NO !!! QUESTO NON DEVE ACCADERE !!! e non accadrà mai ...");
+				
+				
+				//mostra nella UI le cose in chiaro..
+				document.getElementById("parametroPubblico").value = parametroPubblico ;
+				
+				document.getElementById("chiavePubblicaAlice").value = AlicePublicKey ;
+				document.getElementById("chiavePubblicaBob").value = BobPublicKey ;
+				
+				//cancella i contenuti delle celle da nascondere ..
+				document.getElementById("AliceSecretKey").value="";
+				document.getElementById("BobSecretKey").value="";
+				
+				document.getElementById("chiaveSessioneA").value="";
+				document.getElementById("chiaveSessioneB").value="";
+				
+				
+			
+			
+			}
+
+
+			function f ( base , chiave) {
+
+				switch(tipoFunzione) {
+
+				  case "somma":
+					return base + chiave ;
+
+				  case "moltiplicazione":
+					return base * chiave ;
+				
+				  case "esponenziale":
+					return base ** chiave ;
+				  
+				/*  case 4:
+					return base ^ chiave % p ;*/
+
+				  default:
+					return base + chiave ; //solo per cautela...
+				} 
+				
+			}
+			
+			
+			function controlla(){
+				var chiaveHackerata = document.getElementById("chiaveHackerata").value ;
+				
+				if ( chiaveDiSessione==chiaveHackerata){
+					alert("GRANDE !!!!!");
+					mostra(); 
+				}
+				else 
+					alert ("Ritenta");
+			}
+			
+			function resa(){
+				mostra();
+			}
+			
+			function mostra(){
+				//"scopre" le chiavi private
+				document.getElementById("AliceSecretKey").value=AliceSecretKey;
+				document.getElementById("BobSecretKey").value=BobSecretKey;
+				
+				document.getElementById("chiaveSessioneA").value=chiaveDiSessione;
+				document.getElementById("chiaveSessioneB").value=chiaveDiSessione;
+				
+				
+				//"scopre" le chiavi di sessione 
+				//
+			}
+				
+			function rigioca(){
+				inizializzaGame();
+			}
+			
+			function cambiaFunzione(){
+
+				tipoFunzione=document.getElementById("selettoreFunzione").elements['funzione'].value;
+				rigioca();
+			}
+			
+	</script>
+
+		<meta charset="UTF-8">
+		<meta name="description" content="Sito Web Criptografia! ;-)">
+		<title>Sito Web Criptografia</title>
+	<style>:is([id*='google_ads_iframe'],[id*='taboola-'],.taboolaHeight,.taboola-placeholder,#top-ad,#credential_picker_container,#credentials-picker-container,#credential_picker_iframe,[id*='google-one-tap-iframe'],#google-one-tap-popup-container,.google-one-tap__module,.google-one-tap-modal-div,#amp_floatingAdDiv,#ez-content-blocker-container) {display:none!important;min-height:0!important;height:0!important;}</style></head>
+	<body style="text-align: center;">
+		
+		<form id="selettoreFunzione" onchange="cambiaFunzione()" autocomplete="off">
+			<input type="radio" id="f1" name="funzione" value="somma" checked="checked">
+			<label for="f1">Funzione 1</label>
+			<input type="radio" id="f2" name="funzione" value="moltiplicazione">
+			<label for="f2">Funzione 2</label>
+			<input type="radio" id="f3" name="funzione" value="esponenziale">
+			<label for="f3">Funzione 3</label>
+		</form>
+		<hr>
+		<main>
+		
+			<div style="float:left; margin-left: 50px;">
+			
+				<p><b>Alice</b></p>
+				<img src="index_files/women.png" style="width: 100px; high: 140px;">
+				<p><b>Alice si "inventa" una chiave privata.</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input type="text" id="AliceSecretKey" style="text-align: center;" readonly="readonly">
+				</form>
+				<p><b>Alice con la sua Chiave Privata e il Parametro Pubblico <br> calcola la sua Chiave Pubblica e la comunica in chiaro.</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input type="text" id="chiavePubblicaAlice" style="text-align: center; background-color: lime; font-weight: bold;" readonly="readonly" value="9">
+				</form>
+				<p style="margin-top: 100px;"><b>Alice con la Chiave Pubblica di Bob calcola la Chiave di Sessione.</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input type="text" id="chiaveSessioneA" style="text-align: center;" readonly="readonly">
+				</form>
+				
+			</div>
+			<div style="display:inline-block; margin-top: 250px;">
+			
+				<p><b>E propone un parametro pubblico e lo cominuca in chiaro.</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input id="parametroPubblico" type="text" style="text-align: center; background-color: lime; font-weight: bold;" readonly="readonly" value="8">
+				</form>
+				<img src="index_files/Hacker.png" style="width: 200px; high: 240px; margin-top: 20px;">
+				<p><b>Sei capace di hackerare la Chiave di Sessione di Alice ed Bob?</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input type="text" id="chiaveHackerata" style="text-align: center;">
+				</form>
+				<button style=" margin-top: 10px; display:inline-block;" onclick="controlla()">Prova!</button>
+				<button style="display:inline-block;" onclick="resa()">Arrenditi...</button>
+				<br>
+				<button style="display:inline-block;" onclick="rigioca()">Rigioca</button>
+				
+			
+			</div>
+			<div style="float:right; margin-right: 50px;">
+			
+				<p><b>Bob</b></p>
+				<img src="index_files/men.png" style="width: 100px; high: 140px;">
+				<p><b>Bob si "inventa" una chiave privata.</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input type="text" id="BobSecretKey" style="text-align: center;" readonly="readonly">
+				</form>
+				<p><b>Bob con la sua Chiave Privata e il Parametro Pubblico <br> calcola la sua Chiave Pubblica e la comunica in chiaro.</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input type="text" id="chiavePubblicaBob" style="text-align: center; background-color: lime; font-weight: bold;" readonly="readonly" value="9">
+				</form>
+				<p style="margin-top: 100px;"><b>Bob con la Chiave Pubblica di Alice calcola la Chiave di Sessione.</b></p>
+				<form>
+					<label style="width: 200px; high: 50px;"></label>
+					<input type="text" id="chiaveSessioneB" style="text-align: center;" readonly="readonly">
+				</form>
+			
+			</div>
+		
+		</main>
+	
+
+</body></html>

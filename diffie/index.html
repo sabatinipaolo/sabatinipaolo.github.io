@@ -425,59 +425,7 @@
 		
 		</main>
 
-		<!-- Sezione Informativa / Accordion -->
-		<section class="info-section">
-			<div class="info-header" onclick="toggleInfo()">
-				<h2>
-					<i class="fa-solid fa-graduation-cap"></i> 
-					Come funziona lo scambio di chiavi Diffie-Hellman?
-				</h2>
-				<i id="infoChevron" class="fa-solid fa-chevron-down toggle-icon"></i>
-			</div>
-			
-			<div id="infoContent" class="info-content">
-				<div class="steps-grid">
-					<div class="step-card">
-						<span class="step-num">1</span>
-						<h4>Accordo sui Parametri</h4>
-						<p>Alice e Bob concordano un <strong>Parametro Pubblico</strong> condiviso in chiaro. Chiunque (incluso l'hacker Eve) può intercettarlo sulla rete.</p>
-					</div>
-					<div class="step-card">
-						<span class="step-num">2</span>
-						<h4>Generazione Segreti</h4>
-						<p>Ciascuno sceglie una <strong>Chiave Privata</strong> segreta (numeri da 1 a 9 in questo gioco). Questa chiave non viene mai trasmessa sul canale pubblico.</p>
-					</div>
-					<div class="step-card">
-						<span class="step-num">3</span>
-						<h4>Calcolo Pubbliche</h4>
-						<p>Ognuno calcola la sua <strong>Chiave Pubblica</strong> applicando la funzione scelta al parametro pubblico con il proprio segreto. I due scambiano questi risultati in chiaro.</p>
-					</div>
-					<div class="step-card">
-						<span class="step-num">4</span>
-						<h4>Chiave Condivisa</h4>
-						<p>Ciascuno applica la stessa funzione alla chiave pubblica ricevuta e al proprio segreto. Grazie alla commutatività, calcolano lo stesso identico valore finale!</p>
-					</div>
-				</div>
-				
-				<div class="math-proof">
-					<h4>Dimostrazione Matematica</h4>
-					<div class="proof-formula-wrapper">
-						<div class="proof-card">
-							<h5>Alice calcola:</h5>
-							<code id="formulaAlice">f(Chiave Pubblica Bob, Chiave Privata Alice)</code>
-						</div>
-						<div class="proof-equals">=</div>
-						<div class="proof-card">
-							<h5>Bob calcola:</h5>
-							<code id="formulaBob">f(Chiave Pubblica Alice, Chiave Privata Bob)</code>
-						</div>
-					</div>
-					<p class="proof-explanation">
-						Poiché la funzione matematica f utilizzata è commutativa, Alice e Bob ottengono una chiave identica senza che nessuno dei due debba mai trasmettere le proprie chiavi private! Riuscirai a scoprire quale operazione aritmetica si nasconde dietro a ciascuna funzione di gioco?
-					</p>
-				</div>
-			</div>
-		</section>
+
 		
 	</div>
 

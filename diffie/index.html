@@ -1,203 +1,1250 @@
 <!DOCTYPE html>
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Simulatore interattivo di scambio chiavi Diffie-Hellman">
+	<title>Scambio Chiavi Diffie-Hellman</title>
+	
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+	
+	<!-- Font Awesome Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	
+	<style>
+		:root {
+			--bg-primary: #030712;
+			--bg-secondary: #0b1329;
+			--bg-card: rgba(17, 24, 39, 0.65);
+			--border-color: rgba(255, 255, 255, 0.08);
+			
+			--text-primary: #f9fafb;
+			--text-secondary: #9ca3af;
+			--text-muted: #6b7280;
+
+			--color-alice: #06b6d4;      /* Ciano */
+			--color-alice-glow: rgba(6, 182, 212, 0.15);
+			
+			--color-bob: #d946ef;        /* Magenta */
+			--color-bob-glow: rgba(217, 70, 239, 0.15);
+			
+			--color-public: #10b981;     /* Smeraldo */
+			--color-public-glow: rgba(16, 185, 129, 0.15);
+			
+			--color-hacker: #f43f5e;     /* Rosa/Rosso */
+			--color-hacker-glow: rgba(244, 63, 94, 0.15);
+			
+			--color-gold: #fbbf24;       /* Oro */
+			--color-gold-glow: rgba(251, 191, 36, 0.15);
+
+			--font-title: 'Space Grotesk', sans-serif;
+			--font-body: 'Plus Jakarta Sans', sans-serif;
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background-color: var(--bg-primary);
+			background-image: 
+				radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 40%),
+				radial-gradient(at 100% 0%, rgba(217, 70, 239, 0.12) 0px, transparent 40%),
+				radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+			color: var(--text-primary);
+			font-family: var(--font-body);
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			line-height: 1.6;
+			min-height: 100vh;
+			padding: 2.5rem 1.5rem 4rem;
+		}
+
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+			width: 100%;
+		}
+
+		/* Header */
+		.app-header {
+			text-align: center;
+			margin-bottom: 3rem;
+		}
+
+
+
+		.app-header h1 {
+			font-family: var(--font-title);
+			font-size: 2.5rem;
+			font-weight: 700;
+			letter-spacing: -0.5px;
+			background: linear-gradient(135deg, #f9fafb, #cbd5e1);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			margin-bottom: 0.5rem;
+		}
+
+		.app-header .subtitle {
+			color: var(--text-secondary);
+			font-size: 1.1rem;
+			max-width: 600px;
+			margin: 0 auto 2rem;
+			font-weight: 400;
+		}
+
+		/* Selettore Funzione (Segmented Control) */
+		.selector-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.75rem;
+			background: rgba(17, 24, 39, 0.4);
+			border: 1px solid var(--border-color);
+			padding: 1.25rem;
+			border-radius: 1.25rem;
+			max-width: 640px;
+			margin: 0 auto;
+			backdrop-filter: blur(10px);
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+		}
+
+		.selector-title {
+			font-family: var(--font-title);
+			font-size: 0.85rem;
+			font-weight: 700;
+			color: var(--text-secondary);
+			text-transform: uppercase;
+			letter-spacing: 0.75px;
+		}
+
+		.segmented-control {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 0.5rem;
+			width: 100%;
+		}
+
+		.segmented-control input[type="radio"] {
+			display: none;
+		}
+
+		.segmented-control label {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 0.75rem 0.5rem;
+			border-radius: 0.75rem;
+			cursor: pointer;
+			background: rgba(3, 7, 18, 0.4);
+			border: 1px solid var(--border-color);
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			text-align: center;
+		}
+
+		.segmented-control label:hover {
+			background: rgba(255, 255, 255, 0.03);
+			border-color: rgba(255, 255, 255, 0.15);
+		}
+
+		.segmented-control input[type="radio"]:checked + label {
+			background: linear-gradient(135deg, #1e1b4b, #2d0e3a);
+			border-color: #d946ef;
+			box-shadow: 0 0 15px rgba(217, 70, 239, 0.2);
+		}
+
+		.segmented-control label span {
+			transition: all 0.3s ease;
+		}
+
+		.segmented-control .func-name {
+			font-family: var(--font-title);
+			font-weight: 600;
+			font-size: 0.95rem;
+			color: var(--text-primary);
+			margin-bottom: 0.15rem;
+		}
+
+		.segmented-control .func-math {
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 0.8rem;
+			color: var(--text-secondary);
+		}
+
+		.segmented-control input[type="radio"]:checked + label .func-name {
+			color: #f5f3ff;
+		}
+
+		.segmented-control input[type="radio"]:checked + label .func-math {
+			color: #e879f9;
+			font-weight: bold;
+		}
+
+		/* Divider */
+		hr {
+			border: 0;
+			height: 1px;
+			background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+			margin: 2.5rem 0;
+		}
+
+		/* Layout Grid */
+		.main-layout {
+			display: grid;
+			grid-template-columns: 1fr 1.1fr 1fr;
+			gap: 2rem;
+			align-items: start;
+		}
+
+		@media (max-width: 1024px) {
+			.main-layout {
+				grid-template-columns: 1fr;
+				gap: 2.5rem;
+			}
+		}
+
+		/* Card */
+		.card {
+			background: var(--bg-card);
+			backdrop-filter: blur(16px);
+			border: 1px solid var(--border-color);
+			border-radius: 1.5rem;
+			padding: 2rem;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+			border-color: rgba(255, 255, 255, 0.12);
+		}
+
+		.card-header {
+			text-align: center;
+			margin-bottom: 1.75rem;
+		}
+
+		.card-header h2 {
+			font-family: var(--font-title);
+			font-size: 1.75rem;
+			font-weight: 700;
+			color: var(--text-primary);
+			margin: 0;
+		}
+
+		/* Avatars */
+		.avatar-wrapper {
+			width: 96px;
+			height: 96px;
+			border-radius: 50%;
+			overflow: hidden;
+			margin: 0 auto 0.75rem;
+			background: rgba(3, 7, 18, 0.5);
+			border: 3px solid var(--avatar-border-color);
+			box-shadow: 0 0 20px var(--avatar-glow-color);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 8px;
+			transition: all 0.3s ease;
+		}
+
+		.avatar-wrapper img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+
+		.card:hover .avatar-wrapper {
+			transform: scale(1.06);
+			box-shadow: 0 0 30px var(--avatar-glow-color);
+		}
+
+		/* Character Theming */
+		.alice-card {
+			--avatar-border-color: var(--color-alice);
+			--avatar-glow-color: var(--color-alice-glow);
+			border-top: 5px solid var(--color-alice);
+		}
+
+		.bob-card {
+			--avatar-border-color: var(--color-bob);
+			--avatar-glow-color: var(--color-bob-glow);
+			border-top: 5px solid var(--color-bob);
+		}
+
+		.hacker-card {
+			--avatar-border-color: var(--color-hacker);
+			--avatar-glow-color: var(--color-hacker-glow);
+			border-top: 5px solid var(--color-hacker);
+		}
+
+		/* Inputs & Forms */
+		.input-group {
+			margin-bottom: 1rem;
+			text-align: left;
+		}
+
+		.input-group label {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-family: var(--font-title);
+			font-size: 0.8rem;
+			font-weight: 600;
+			color: var(--text-secondary);
+			margin-bottom: 0.4rem;
+			text-transform: uppercase;
+			letter-spacing: 0.75px;
+		}
+
+		.input-wrapper {
+			position: relative;
+			display: flex;
+			align-items: center;
+			background: rgba(3, 7, 18, 0.4);
+			border: 1px solid var(--border-color);
+			border-radius: 0.75rem;
+			transition: all 0.3s ease;
+			overflow: hidden;
+		}
+
+		.input-wrapper input {
+			width: 100%;
+			border: none;
+			background: transparent;
+			color: var(--text-primary);
+			padding: 0.75rem 1rem;
+			font-family: var(--font-title);
+			font-size: 1.15rem;
+			font-weight: 700;
+			text-align: center;
+			outline: none;
+		}
+
+		.input-wrapper input[readonly] {
+			cursor: default;
+		}
+
+		.input-group .help-text {
+			display: block;
+			font-size: 0.75rem;
+			color: var(--text-muted);
+			margin-top: 0.35rem;
+			line-height: 1.4;
+		}
+
+		/* Thematic inputs */
+		.private-group .input-wrapper {
+			border-color: rgba(251, 191, 36, 0.25);
+			background: rgba(251, 191, 36, 0.03);
+		}
+		.private-group label {
+			color: var(--color-gold);
+		}
+		.private-group .input-wrapper input {
+			color: var(--color-gold);
+		}
+
+		.public-group .input-wrapper {
+			border-color: rgba(16, 185, 129, 0.3);
+			background: rgba(16, 185, 129, 0.05);
+		}
+		.public-group label {
+			color: var(--color-public);
+		}
+		.public-group .input-wrapper input {
+			color: var(--color-public);
+		}
+
+		.session-group .input-wrapper {
+			border-color: rgba(6, 182, 212, 0.3);
+			background: rgba(6, 182, 212, 0.05);
+		}
+		.session-group label {
+			color: var(--color-alice);
+		}
+		.session-group .input-wrapper input {
+			color: var(--color-alice);
+		}
+
+		/* Bob session colors override */
+		.bob-card .session-group label {
+			color: var(--color-bob);
+		}
+		.bob-card .session-group .input-wrapper {
+			border-color: rgba(217, 70, 239, 0.3);
+			background: rgba(217, 70, 239, 0.05);
+		}
+		.bob-card .session-group .input-wrapper input {
+			color: var(--color-bob);
+		}
+
+		/* Down arrows */
+		.arrow-down {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0.75rem auto;
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid var(--border-color);
+			color: var(--text-muted);
+			font-size: 0.85rem;
+			animation: pulse-arrow 2s infinite ease-in-out;
+		}
+
+		@keyframes pulse-arrow {
+			0%, 100% { transform: translateY(0); opacity: 0.4; }
+			50% { transform: translateY(4px); opacity: 0.8; color: var(--text-secondary); }
+		}
+
+		/* Center Column */
+		.center-column {
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+		}
+
+		.public-channel-card {
+			border-top: 5px solid var(--color-public);
+		}
+
+		.public-channel-card .card-header {
+			margin-bottom: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.75rem;
+		}
+
+		.public-channel-card .card-header i {
+			color: var(--color-public);
+			font-size: 1.5rem;
+		}
+
+		.public-channel-card .card-header h3 {
+			font-family: var(--font-title);
+			font-size: 1.15rem;
+			margin: 0;
+			color: var(--text-primary);
+			text-transform: uppercase;
+			letter-spacing: 0.75px;
+		}
+
+		.public-channel-card .card-body {
+			margin-top: 1rem;
+		}
+
+		.public-param-group .input-wrapper {
+			border-color: rgba(16, 185, 129, 0.4);
+			background: rgba(16, 185, 129, 0.06);
+		}
+		.public-param-group label {
+			color: var(--color-public);
+		}
+		.public-param-group .input-wrapper input {
+			color: var(--color-public);
+		}
+
+		/* Hacker Section */
+		.hacker-card .challenge-desc {
+			text-align: center;
+			font-size: 0.95rem;
+			margin-bottom: 1.5rem;
+			color: var(--text-secondary);
+		}
+
+		.hacker-guess-group label {
+			color: var(--color-hacker);
+		}
+
+		.hacker-guess-group .input-wrapper {
+			border-color: rgba(244, 63, 94, 0.4);
+			background: rgba(3, 7, 18, 0.6);
+		}
+
+		.hacker-guess-group .input-wrapper input {
+			color: var(--color-hacker);
+			font-family: 'Courier New', Courier, monospace;
+			font-weight: 700;
+			letter-spacing: 1px;
+		}
+
+		.hacker-guess-group .input-wrapper input::placeholder {
+			color: rgba(244, 63, 94, 0.35);
+			font-family: var(--font-body);
+			font-size: 0.95rem;
+			font-weight: normal;
+		}
+
+		.hacker-guess-group .input-wrapper:focus-within {
+			border-color: var(--color-hacker);
+			box-shadow: 0 0 15px rgba(244, 63, 94, 0.25);
+		}
+
+		/* Buttons */
+		.btn-grid {
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+			margin-top: 1.5rem;
+		}
+
+		.btn-row {
+			display: grid;
+			grid-template-columns: 1.2fr 1fr;
+			gap: 0.75rem;
+		}
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			padding: 0.85rem 1.25rem;
+			border-radius: 0.75rem;
+			font-family: var(--font-title);
+			font-weight: 600;
+			font-size: 0.95rem;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+			border: none;
+			text-decoration: none;
+			outline: none;
+			user-select: none;
+		}
+
+		.btn-primary {
+			background: linear-gradient(135deg, var(--color-hacker), #e11d48);
+			color: white;
+			box-shadow: 0 4px 15px rgba(244, 63, 94, 0.25);
+		}
+
+		.btn-primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4);
+		}
+
+		.btn-secondary {
+			background: rgba(31, 41, 55, 0.8);
+			color: var(--text-primary);
+			border: 1px solid var(--border-color);
+		}
+
+		.btn-secondary:hover {
+			background: rgba(55, 65, 81, 0.8);
+			transform: translateY(-2px);
+			border-color: rgba(255, 255, 255, 0.15);
+		}
+
+		.btn-accent {
+			background: rgba(6, 182, 212, 0.1);
+			color: var(--color-alice);
+			border: 1px solid rgba(6, 182, 212, 0.25);
+			margin-top: 0.25rem;
+		}
+
+		.btn-accent:hover {
+			background: rgba(6, 182, 212, 0.15);
+			transform: translateY(-2px);
+			border-color: rgba(6, 182, 212, 0.4);
+			box-shadow: 0 4px 15px rgba(6, 182, 212, 0.15);
+		}
+
+		.btn:active {
+			transform: translateY(0);
+		}
+
+		/* Info/Spiegazione Accordion */
+		.info-section {
+			background: var(--bg-card);
+			border: 1px solid var(--border-color);
+			border-radius: 1.5rem;
+			margin-top: 3.5rem;
+			overflow: hidden;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			transition: all 0.3s ease;
+		}
+
+		.info-header {
+			padding: 1.5rem 2rem;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			cursor: pointer;
+			background: rgba(255, 255, 255, 0.01);
+			user-select: none;
+			transition: background 0.3s ease;
+		}
+
+		.info-header:hover {
+			background: rgba(255, 255, 255, 0.03);
+		}
+
+		.info-header h2 {
+			font-family: var(--font-title);
+			font-size: 1.25rem;
+			margin: 0;
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			color: var(--text-primary);
+		}
+
+		.info-header h2 i {
+			color: var(--color-public);
+		}
+
+		.toggle-icon {
+			font-size: 1rem;
+			color: var(--text-secondary);
+			transition: transform 0.3s ease;
+		}
+
+		.toggle-icon.rotate {
+			transform: rotate(180deg);
+		}
+
+		.info-content {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+			padding: 0 2rem;
+		}
+
+		.info-content.open {
+			max-height: 1000px;
+			padding: 2rem;
+			border-top: 1px solid var(--border-color);
+		}
+
+		.steps-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 1.5rem;
+			margin-bottom: 2rem;
+		}
+
+		.step-card {
+			background: rgba(3, 7, 18, 0.3);
+			border: 1px solid var(--border-color);
+			border-radius: 0.85rem;
+			padding: 1.25rem;
+			position: relative;
+		}
+
+		.step-num {
+			position: absolute;
+			top: 0.75rem;
+			right: 0.75rem;
+			font-family: var(--font-title);
+			font-size: 2rem;
+			font-weight: 800;
+			color: rgba(255, 255, 255, 0.03);
+			line-height: 1;
+		}
+
+		.step-card h4 {
+			font-family: var(--font-title);
+			font-size: 1.05rem;
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+			color: var(--text-primary);
+		}
+
+		.step-card p {
+			font-size: 0.875rem;
+			color: var(--text-secondary);
+			margin: 0;
+			line-height: 1.5;
+		}
+
+		.math-proof {
+			background: rgba(3, 7, 18, 0.4);
+			border: 1px solid rgba(16, 185, 129, 0.2);
+			border-radius: 0.85rem;
+			padding: 1.5rem;
+			text-align: center;
+		}
+
+		.math-proof h4 {
+			font-family: var(--font-title);
+			margin-top: 0;
+			margin-bottom: 1rem;
+			color: #10b981;
+			font-size: 1.1rem;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.proof-formula-wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1.25rem;
+			margin: 1.5rem 0;
+			flex-wrap: wrap;
+		}
+
+		.proof-card {
+			background: rgba(3, 7, 18, 0.6);
+			border: 1px solid var(--border-color);
+			padding: 1rem 1.25rem;
+			border-radius: 0.75rem;
+			min-width: 240px;
+		}
+
+		.proof-card h5 {
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+			color: var(--text-secondary);
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.proof-card code {
+			font-family: 'Courier New', Courier, monospace;
+			font-size: 1.05rem;
+			color: var(--text-primary);
+			font-weight: bold;
+		}
+
+		.proof-equals {
+			font-size: 1.75rem;
+			font-weight: bold;
+			color: var(--text-secondary);
+		}
+
+		.proof-explanation {
+			font-size: 0.9rem;
+			color: var(--text-secondary);
+			margin: 0;
+			max-width: 800px;
+			margin: 0.5rem auto 0;
+			line-height: 1.5;
+		}
+
+		/* Custom Alert Modal */
+		.modal-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(3, 7, 18, 0.85);
+			backdrop-filter: blur(8px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			z-index: 1000;
+			padding: 1rem;
+		}
+
+		.modal-overlay.show {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.modal-content {
+			background: #0b1329;
+			border: 1px solid var(--border-color);
+			border-radius: 1.5rem;
+			max-width: 450px;
+			width: 100%;
+			padding: 2.25rem;
+			text-align: center;
+			transform: scale(0.9) translateY(20px);
+			transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+		}
+
+		.modal-overlay.show .modal-content {
+			transform: scale(1) translateY(0);
+		}
+
+		.modal-header {
+			margin-bottom: 1rem;
+		}
+
+		.modal-header i {
+			font-size: 3.5rem;
+			margin-bottom: 1rem;
+			display: inline-block;
+		}
+
+		.success-icon {
+			color: var(--color-public);
+			filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.35));
+		}
+
+		.error-icon {
+			color: var(--color-hacker);
+			filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.35));
+		}
+
+		.modal-title {
+			font-family: var(--font-title);
+			font-size: 1.5rem;
+			font-weight: 700;
+			margin: 0;
+			color: var(--text-primary);
+		}
+
+		.modal-body {
+			color: var(--text-secondary);
+			font-size: 0.975rem;
+			margin-bottom: 1.75rem;
+			line-height: 1.5;
+		}
+
+		.success-border {
+			border-top: 5px solid var(--color-public);
+		}
+
+		.error-border {
+			border-top: 5px solid var(--color-hacker);
+		}
+	</style>
+	
 	<script>
-			//variabili globali 
-			var AliceSecretKey ; 
-			var BobSecretKey ;
-			var parametroPubblico;
-			var chiaveDiSessione; 
-			var AlicePublicKey;
-			var BobPublicKey ;
-			var tipoFunzione="somma";
+		//variabili globali 
+		var AliceSecretKey ; 
+		var BobSecretKey ;
+		var parametroPubblico;
+		var chiaveDiSessione; 
+		var AlicePublicKey;
+		var BobPublicKey ;
+		var tipoFunzione="somma";
+		
+		document.addEventListener("DOMContentLoaded", inizializzaGame );
+		
+		function inizializzaGame(){
+			AliceSecretKey = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
+			BobSecretKey = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
 			
+			//qui è dove Diffie Helmann viene implementato!!
 			
-			document.addEventListener("DOMContentLoaded", inizializzaGame );
+			parametroPubblico = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
 			
-			function inizializzaGame(){
-				AliceSecretKey = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
-				BobSecretKey = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
-				
-				//qui è dove Diffie Helmann viene implementato!!
-				
-				parametroPubblico = 1+ Math.floor( Math.random()*9 ); //TODO : scegliere il range
-				
-				AlicePublicKey= f( parametroPubblico , AliceSecretKey );
-				BobPublicKey  = f( parametroPubblico , BobSecretKey );
-				
-				// Calcolo della chiave scambiata  
-				
-				var chiaveDiSessioneA = f(  BobPublicKey  , AliceSecretKey ) ;//Alice
-				var chiaveDiSessioneB = f( AlicePublicKey , BobSecretKey )   ;//Bob 
-				chiaveDiSessione  = chiaveDiSessioneA ;
-				// Le due chiavi sono uguali ... 
-				if ( chiaveDiSessioneA != chiaveDiSessioneB ) 
-					alert (" OH NO !!! QUESTO NON DEVE ACCADERE !!! e non accadrà mai ...");
-				
-				
-				//mostra nella UI le cose in chiaro..
-				document.getElementById("parametroPubblico").value = parametroPubblico ;
-				
-				document.getElementById("chiavePubblicaAlice").value = AlicePublicKey ;
-				document.getElementById("chiavePubblicaBob").value = BobPublicKey ;
-				
-				//cancella i contenuti delle celle da nascondere ..
-				document.getElementById("AliceSecretKey").value="";
-				document.getElementById("BobSecretKey").value="";
-				
-				document.getElementById("chiaveSessioneA").value="";
-				document.getElementById("chiaveSessioneB").value="";
-				
-				
+			AlicePublicKey= f( parametroPubblico , AliceSecretKey );
+			BobPublicKey  = f( parametroPubblico , BobSecretKey );
 			
+			// Calcolo della chiave scambiata  
 			
+			var chiaveDiSessioneA = f(  BobPublicKey  , AliceSecretKey ) ;//Alice
+			var chiaveDiSessioneB = f( AlicePublicKey , BobSecretKey )   ;//Bob 
+			chiaveDiSessione  = chiaveDiSessioneA ;
+			
+			// Le due chiavi sono uguali ... 
+			if ( chiaveDiSessioneA != chiaveDiSessioneB ) 
+				showModal("Errore Matematico", "OH NO !!! QUESTO NON DEVE ACCADERE !!!", false);
+			
+			//mostra nella UI le cose in chiaro..
+			document.getElementById("parametroPubblico").value = parametroPubblico ;
+			
+			document.getElementById("chiavePubblicaAlice").value = AlicePublicKey ;
+			document.getElementById("chiavePubblicaBob").value = BobPublicKey ;
+			
+			//cancella i contenuti delle celle da nascondere ..
+			document.getElementById("AliceSecretKey").value="";
+			document.getElementById("BobSecretKey").value="";
+			
+			document.getElementById("chiaveSessioneA").value="";
+			document.getElementById("chiaveSessioneB").value="";
+			
+			// Svuota l'input dell'hacker
+			document.getElementById("chiaveHackerata").value="";
+		}
+
+		function f ( base , chiave) {
+			switch(tipoFunzione) {
+			  case "somma":
+				return base + chiave ;
+
+			  case "moltiplicazione":
+				return base * chiave ;
+			
+			  case "esponenziale":
+				return base ** chiave ;
+			  
+			  default:
+				return base + chiave ;
+			} 
+		}
+		
+		function controlla(){
+			var chiaveHackerata = document.getElementById("chiaveHackerata").value ;
+			
+			if (chiaveHackerata === "") {
+				showModal("Attenzione", "Inserisci la tua stima della chiave di sessione prima di verificare!", false);
+				return;
 			}
 
-
-			function f ( base , chiave) {
-
-				switch(tipoFunzione) {
-
-				  case "somma":
-					return base + chiave ;
-
-				  case "moltiplicazione":
-					return base * chiave ;
-				
-				  case "esponenziale":
-					return base ** chiave ;
-				  
-				/*  case 4:
-					return base ^ chiave % p ;*/
-
-				  default:
-					return base + chiave ; //solo per cautela...
-				} 
-				
+			if ( chiaveDiSessione == chiaveHackerata){
+				showModal("GRANDE !!!!!", "Ottimo lavoro! Hai hackerato correttamente la chiave di sessione condivisa!", true);
+				mostra(); 
 			}
+			else {
+				showModal("Tentativo Fallito", "Ritenta! Quella non è la chiave di sessione condivisa da Alice e Bob.", false);
+			}
+		}
+		
+		function resa(){
+			mostra();
+			showModal("Ti sei arreso", "Nessun problema! Abbiamo mostrato a schermo le chiavi private e le chiavi di sessione finali.", false);
+		}
+		
+		function mostra(){
+			//"scopre" le chiavi private
+			document.getElementById("AliceSecretKey").value=AliceSecretKey;
+			document.getElementById("BobSecretKey").value=BobSecretKey;
 			
+			document.getElementById("chiaveSessioneA").value=chiaveDiSessione;
+			document.getElementById("chiaveSessioneB").value=chiaveDiSessione;
+		}
 			
-			function controlla(){
-				var chiaveHackerata = document.getElementById("chiaveHackerata").value ;
-				
-				if ( chiaveDiSessione==chiaveHackerata){
-					alert("GRANDE !!!!!");
-					mostra(); 
+		function rigioca(){
+			inizializzaGame();
+		}
+		
+		function cambiaFunzione(){
+			tipoFunzione=document.getElementById("selettoreFunzione").elements['funzione'].value;
+			rigioca();
+		}
+
+
+
+		// Gestione del modal personalizzato
+		function showModal(title, message, isSuccess) {
+			const modal = document.getElementById("customModal");
+			const modalTitle = document.getElementById("modalTitle");
+			const modalMessage = document.getElementById("modalMessage");
+			const modalIcon = document.getElementById("modalIcon");
+			const modalContent = document.querySelector(".modal-content");
+			
+			modalTitle.textContent = title;
+			modalMessage.textContent = message;
+			
+			if (isSuccess) {
+				modalIcon.className = "fa-solid fa-circle-check success-icon";
+				modalContent.className = "modal-content success-border";
+			} else {
+				// Cambia icona se si è arreso oppure è un avviso vuoto
+				if (title === "Ti sei arreso") {
+					modalIcon.className = "fa-solid fa-eye error-icon";
+				} else if (title === "Attenzione") {
+					modalIcon.className = "fa-solid fa-circle-exclamation error-icon";
+				} else {
+					modalIcon.className = "fa-solid fa-circle-xmark error-icon";
 				}
-				else 
-					alert ("Ritenta");
+				modalContent.className = "modal-content error-border";
 			}
 			
-			function resa(){
-				mostra();
-			}
-			
-			function mostra(){
-				//"scopre" le chiavi private
-				document.getElementById("AliceSecretKey").value=AliceSecretKey;
-				document.getElementById("BobSecretKey").value=BobSecretKey;
-				
-				document.getElementById("chiaveSessioneA").value=chiaveDiSessione;
-				document.getElementById("chiaveSessioneB").value=chiaveDiSessione;
-				
-				
-				//"scopre" le chiavi di sessione 
-				//
-			}
-				
-			function rigioca(){
-				inizializzaGame();
-			}
-			
-			function cambiaFunzione(){
+			modal.classList.add("show");
+		}
 
-				tipoFunzione=document.getElementById("selettoreFunzione").elements['funzione'].value;
-				rigioca();
-			}
-			
+		function hideModal() {
+			const modal = document.getElementById("customModal");
+			modal.classList.remove("show");
+		}
+
+		// Toggle dell'accordion informativo
+		function toggleInfo() {
+			const content = document.getElementById("infoContent");
+			const chevron = document.getElementById("infoChevron");
+			content.classList.toggle("open");
+			chevron.classList.toggle("rotate");
+		}
 	</script>
-
-		<meta charset="UTF-8">
-		<meta name="description" content="Sito Web Criptografia! ;-)">
-		<title>Sito Web Criptografia</title>
-	<style>:is([id*='google_ads_iframe'],[id*='taboola-'],.taboolaHeight,.taboola-placeholder,#top-ad,#credential_picker_container,#credentials-picker-container,#credential_picker_iframe,[id*='google-one-tap-iframe'],#google-one-tap-popup-container,.google-one-tap__module,.google-one-tap-modal-div,#amp_floatingAdDiv,#ez-content-blocker-container) {display:none!important;min-height:0!important;height:0!important;}</style></head>
-	<body style="text-align: center;">
+</head>
+<body>
+	<div class="container">
 		
-		<form id="selettoreFunzione" onchange="cambiaFunzione()" autocomplete="off">
-			<input type="radio" id="f1" name="funzione" value="somma" checked="checked">
-			<label for="f1">Funzione 1</label>
-			<input type="radio" id="f2" name="funzione" value="moltiplicazione">
-			<label for="f2">Funzione 2</label>
-			<input type="radio" id="f3" name="funzione" value="esponenziale">
-			<label for="f3">Funzione 3</label>
-		</form>
+		<!-- Intestazione ed App Header -->
+		<header class="app-header">
+			<h1>Diffie-Hellman Key Exchange</h1>
+			<p class="subtitle">Comprendi visivamente e matematicamente il funzionamento del protocollo crittografico che protegge le nostre comunicazioni online.</p>
+			
+			<div class="selector-container">
+				<span class="selector-title">Seleziona la funzione di gioco</span>
+				<form id="selettoreFunzione" onchange="cambiaFunzione()" autocomplete="off" class="segmented-control">
+					<input type="radio" id="f1" name="funzione" value="somma" checked="checked">
+					<label for="f1">
+						<span class="func-name">Funzione 1</span>
+					</label>
+					<input type="radio" id="f2" name="funzione" value="moltiplicazione">
+					<label for="f2">
+						<span class="func-name">Funzione 2</span>
+					</label>
+					<input type="radio" id="f3" name="funzione" value="esponenziale">
+					<label for="f3">
+						<span class="func-name">Funzione 3</span>
+					</label>
+				</form>
+			</div>
+		</header>
+		
 		<hr>
-		<main>
 		
-			<div style="float:left; margin-left: 50px;">
+		<!-- Area Principale di Gioco -->
+		<main class="main-layout">
+		
+			<!-- CARD ALICE -->
+			<div class="card alice-card">
+				<div class="card-header">
+					<div class="avatar-wrapper">
+						<img src="index_files/women.png" alt="Alice">
+					</div>
+					<h2>Alice</h2>
+				</div>
+				
+				<div class="card-body">
+					<!-- Chiave Privata Alice -->
+					<div class="input-group private-group">
+						<label for="AliceSecretKey">
+							<i class="fa-solid fa-user-lock"></i> Chiave Privata
+						</label>
+						<div class="input-wrapper">
+							<input type="text" id="AliceSecretKey" readonly placeholder="• • •">
+						</div>
+						<span class="help-text">Generata localmente ad ogni partita. Rimane segreta.</span>
+					</div>
+					
+					<div class="arrow-down">
+						<i class="fa-solid fa-chevron-down"></i>
+					</div>
+					
+					<!-- Chiave Pubblica Alice -->
+					<div class="input-group public-group">
+						<label for="chiavePubblicaAlice">
+							<i class="fa-solid fa-share-nodes"></i> Chiave Pubblica
+						</label>
+						<div class="input-wrapper">
+							<input type="text" id="chiavePubblicaAlice" readonly>
+						</div>
+						<span class="help-text">Calcolata e inviata in chiaro sul canale pubblico.</span>
+					</div>
+					
+					<div class="arrow-down">
+						<i class="fa-solid fa-chevron-down"></i>
+					</div>
+					
+					<!-- Chiave Sessione Alice -->
+					<div class="input-group session-group">
+						<label for="chiaveSessioneA">
+							<i class="fa-solid fa-key"></i> Chiave di Sessione
+						</label>
+						<div class="input-wrapper">
+							<input type="text" id="chiaveSessioneA" readonly placeholder="• • •">
+						</div>
+						<span class="help-text">Calcolata partendo dalla chiave pubblica di Bob.</span>
+					</div>
+				</div>
+			</div>
 			
-				<p><b>Alice</b></p>
-				<img src="index_files/women.png" style="width: 100px; high: 140px;">
-				<p><b>Alice si "inventa" una chiave privata.</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input type="text" id="AliceSecretKey" style="text-align: center;" readonly="readonly">
-				</form>
-				<p><b>Alice con la sua Chiave Privata e il Parametro Pubblico <br> calcola la sua Chiave Pubblica e la comunica in chiaro.</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input type="text" id="chiavePubblicaAlice" style="text-align: center; background-color: lime; font-weight: bold;" readonly="readonly" value="9">
-				</form>
-				<p style="margin-top: 100px;"><b>Alice con la Chiave Pubblica di Bob calcola la Chiave di Sessione.</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input type="text" id="chiaveSessioneA" style="text-align: center;" readonly="readonly">
-				</form>
+			<!-- COLONNA CENTRALE (CANALE PUBBLICO & HACKER) -->
+			<div class="center-column">
+				
+				<!-- CANALE PUBBLICO CARD -->
+				<div class="card public-channel-card">
+					<div class="card-header">
+						<i class="fa-solid fa-network-wired"></i>
+						<h3>Canale Pubblico (Inicuro)</h3>
+					</div>
+					<div class="card-body">
+						<div class="input-group public-param-group">
+							<label for="parametroPubblico">
+								<i class="fa-solid fa-bullhorn"></i> Parametro Pubblico
+							</label>
+							<div class="input-wrapper">
+								<input id="parametroPubblico" type="text" readonly>
+							</div>
+							<span class="help-text">Valore condiviso visibile in transito sulla rete.</span>
+						</div>
+					</div>
+				</div>
+				
+				<!-- HACKER CARD -->
+				<div class="card hacker-card">
+					<div class="card-header">
+						<div class="avatar-wrapper">
+							<img src="index_files/Hacker.png" alt="Hacker">
+						</div>
+						<h2>Eve (L'Hacker)</h2>
+					</div>
+					
+					<div class="card-body">
+						<p class="challenge-desc">Eve spia il canale pubblico. Riesci ad hackerare la <strong>Chiave di Sessione</strong> finale conoscendo solo i parametri in chiaro?</p>
+						
+						<div class="input-group hacker-guess-group">
+							<label for="chiaveHackerata">
+								<i class="fa-solid fa-terminal"></i> Chiave di Sessione Indovinata
+							</label>
+							<div class="input-wrapper">
+								<input type="number" id="chiaveHackerata" placeholder="Calcola ed inserisci...">
+							</div>
+						</div>
+						
+						<div class="btn-grid">
+							<div class="btn-row">
+								<button class="btn btn-primary" onclick="controlla()">
+									<i class="fa-solid fa-unlock-keyhole"></i> Prova!
+								</button>
+								<button class="btn btn-secondary" onclick="resa()">
+									<i class="fa-solid fa-flag"></i> Arrenditi
+								</button>
+							</div>
+							<button class="btn btn-accent" onclick="rigioca()">
+								<i class="fa-solid fa-arrows-rotate"></i> Rigioca / Reset
+							</button>
+						</div>
+					</div>
+				</div>
 				
 			</div>
-			<div style="display:inline-block; margin-top: 250px;">
 			
-				<p><b>E propone un parametro pubblico e lo cominuca in chiaro.</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input id="parametroPubblico" type="text" style="text-align: center; background-color: lime; font-weight: bold;" readonly="readonly" value="8">
-				</form>
-				<img src="index_files/Hacker.png" style="width: 200px; high: 240px; margin-top: 20px;">
-				<p><b>Sei capace di hackerare la Chiave di Sessione di Alice ed Bob?</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input type="text" id="chiaveHackerata" style="text-align: center;">
-				</form>
-				<button style=" margin-top: 10px; display:inline-block;" onclick="controlla()">Prova!</button>
-				<button style="display:inline-block;" onclick="resa()">Arrenditi...</button>
-				<br>
-				<button style="display:inline-block;" onclick="rigioca()">Rigioca</button>
+			<!-- CARD BOB -->
+			<div class="card bob-card">
+				<div class="card-header">
+					<div class="avatar-wrapper">
+						<img src="index_files/men.png" alt="Bob">
+					</div>
+					<h2>Bob</h2>
+				</div>
 				
-			
-			</div>
-			<div style="float:right; margin-right: 50px;">
-			
-				<p><b>Bob</b></p>
-				<img src="index_files/men.png" style="width: 100px; high: 140px;">
-				<p><b>Bob si "inventa" una chiave privata.</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input type="text" id="BobSecretKey" style="text-align: center;" readonly="readonly">
-				</form>
-				<p><b>Bob con la sua Chiave Privata e il Parametro Pubblico <br> calcola la sua Chiave Pubblica e la comunica in chiaro.</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input type="text" id="chiavePubblicaBob" style="text-align: center; background-color: lime; font-weight: bold;" readonly="readonly" value="9">
-				</form>
-				<p style="margin-top: 100px;"><b>Bob con la Chiave Pubblica di Alice calcola la Chiave di Sessione.</b></p>
-				<form>
-					<label style="width: 200px; high: 50px;"></label>
-					<input type="text" id="chiaveSessioneB" style="text-align: center;" readonly="readonly">
-				</form>
-			
+				<div class="card-body">
+					<!-- Chiave Privata Bob -->
+					<div class="input-group private-group">
+						<label for="BobSecretKey">
+							<i class="fa-solid fa-user-lock"></i> Chiave Privata
+						</label>
+						<div class="input-wrapper">
+							<input type="text" id="BobSecretKey" readonly placeholder="• • •">
+						</div>
+						<span class="help-text">Generata localmente ad ogni partita. Rimane segreta.</span>
+					</div>
+					
+					<div class="arrow-down">
+						<i class="fa-solid fa-chevron-down"></i>
+					</div>
+					
+					<!-- Chiave Pubblica Bob -->
+					<div class="input-group public-group">
+						<label for="chiavePubblicaBob">
+							<i class="fa-solid fa-share-nodes"></i> Chiave Pubblica
+						</label>
+						<div class="input-wrapper">
+							<input type="text" id="chiavePubblicaBob" readonly>
+						</div>
+						<span class="help-text">Calcolata e inviata in chiaro sul canale pubblico.</span>
+					</div>
+					
+					<div class="arrow-down">
+						<i class="fa-solid fa-chevron-down"></i>
+					</div>
+					
+					<!-- Chiave Sessione Bob -->
+					<div class="input-group session-group">
+						<label for="chiaveSessioneB">
+							<i class="fa-solid fa-key"></i> Chiave di Sessione
+						</label>
+						<div class="input-wrapper">
+							<input type="text" id="chiaveSessioneB" readonly placeholder="• • •">
+						</div>
+						<span class="help-text">Calcolata partendo dalla chiave pubblica di Alice.</span>
+					</div>
+				</div>
 			</div>
 		
 		</main>
-	
 
-</body></html>
+		<!-- Sezione Informativa / Accordion -->
+		<section class="info-section">
+			<div class="info-header" onclick="toggleInfo()">
+				<h2>
+					<i class="fa-solid fa-graduation-cap"></i> 
+					Come funziona lo scambio di chiavi Diffie-Hellman?
+				</h2>
+				<i id="infoChevron" class="fa-solid fa-chevron-down toggle-icon"></i>
+			</div>
+			
+			<div id="infoContent" class="info-content">
+				<div class="steps-grid">
+					<div class="step-card">
+						<span class="step-num">1</span>
+						<h4>Accordo sui Parametri</h4>
+						<p>Alice e Bob concordano un <strong>Parametro Pubblico</strong> condiviso in chiaro. Chiunque (incluso l'hacker Eve) può intercettarlo sulla rete.</p>
+					</div>
+					<div class="step-card">
+						<span class="step-num">2</span>
+						<h4>Generazione Segreti</h4>
+						<p>Ciascuno sceglie una <strong>Chiave Privata</strong> segreta (numeri da 1 a 9 in questo gioco). Questa chiave non viene mai trasmessa sul canale pubblico.</p>
+					</div>
+					<div class="step-card">
+						<span class="step-num">3</span>
+						<h4>Calcolo Pubbliche</h4>
+						<p>Ognuno calcola la sua <strong>Chiave Pubblica</strong> applicando la funzione scelta al parametro pubblico con il proprio segreto. I due scambiano questi risultati in chiaro.</p>
+					</div>
+					<div class="step-card">
+						<span class="step-num">4</span>
+						<h4>Chiave Condivisa</h4>
+						<p>Ciascuno applica la stessa funzione alla chiave pubblica ricevuta e al proprio segreto. Grazie alla commutatività, calcolano lo stesso identico valore finale!</p>
+					</div>
+				</div>
+				
+				<div class="math-proof">
+					<h4>Dimostrazione Matematica</h4>
+					<div class="proof-formula-wrapper">
+						<div class="proof-card">
+							<h5>Alice calcola:</h5>
+							<code id="formulaAlice">f(Chiave Pubblica Bob, Chiave Privata Alice)</code>
+						</div>
+						<div class="proof-equals">=</div>
+						<div class="proof-card">
+							<h5>Bob calcola:</h5>
+							<code id="formulaBob">f(Chiave Pubblica Alice, Chiave Privata Bob)</code>
+						</div>
+					</div>
+					<p class="proof-explanation">
+						Poiché la funzione matematica f utilizzata è commutativa, Alice e Bob ottengono una chiave identica senza che nessuno dei due debba mai trasmettere le proprie chiavi private! Riuscirai a scoprire quale operazione aritmetica si nasconde dietro a ciascuna funzione di gioco?
+					</p>
+				</div>
+			</div>
+		</section>
+		
+	</div>
+
+	<!-- Custom Alert Modal Container -->
+	<div id="customModal" class="modal-overlay" onclick="hideModal()">
+		<div class="modal-content" onclick="event.stopPropagation()">
+			<div class="modal-header">
+				<i id="modalIcon" class="fa-solid fa-circle-check"></i>
+				<h3 id="modalTitle">Titolo Modal</h3>
+			</div>
+			<div class="modal-body">
+				<p id="modalMessage">Descrizione dell'avviso...</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="hideModal()">Chiudi</button>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

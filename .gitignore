@@ -1,2 +1,5 @@
 _site/
 Gemfile.lock
+_config copy.yml
+_config.yml.pao.loc.yml
+.gitignore

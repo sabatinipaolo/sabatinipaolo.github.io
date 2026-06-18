@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Pubblico vs Privato · Guida divulgativa</title>
+  <!-- Font e icone (Font Awesome) per un tocco moderno -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Reset base e variabili */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      background: #f4f7fc;
+      color: #1e293b;
+      line-height: 1.6;
+      padding: 2rem 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      max-width: 1200px;
+      width: 100%;
+      background: white;
+      border-radius: 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 20, 30, 0.25);
+      padding: 2.5rem 2rem;
+      transition: all 0.2s ease;
+    }
+
+    /* Intestazione */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 2px dashed #d0dbe8;
+      padding-bottom: 1.5rem;
+    }
+
+    .header h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(145deg, #0b3b5c, #1e6f9f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+    }
+
+    .header h1 i {
+      -webkit-text-fill-color: #1e6f9f;
+      margin-right: 10px;
+    }
+
+    .header .sub {
+      font-size: 1.2rem;
+      color: #475569;
+      margin-top: 0.4rem;
+      font-weight: 400;
+      background: #e9f0f8;
+      display: inline-block;
+      padding: 0.2rem 1.8rem;
+      border-radius: 40px;
+      backdrop-filter: blur(2px);
+    }
+
+    /* Griglia principale */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.2rem;
+    }
+
+    /* schede IP */
+    .ip-box {
+      background: #f9fcff;
+      border-radius: 1.8rem;
+      padding: 1.8rem 1.8rem 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e9eef4;
+      transition: 0.2s;
+    }
+
+    .ip-box:hover {
+      border-color: #b6d0e5;
+      box-shadow: 0 12px 24px -10px rgba(20, 80, 130, 0.12);
+    }
+
+    .ip-box .badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      background: #d7e5f0;
+      color: #1a4b6d;
+      margin-bottom: 1rem;
+    }
+
+    .ip-box.public .badge {
+      background: #cfe3d9;
+      color: #11543b;
+    }
+
+    .ip-box.private .badge {
+      background: #e5d9e9;
+      color: #5a3e6b;
+    }
+
+    .ip-box h2 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.75rem;
+    }
+
+    .ip-box h2 i {
+      font-size: 1.9rem;
+      width: 2.2rem;
+      color: #1e6f9f;
+    }
+
+    .ip-box.public h2 i {
+      color: #0f7b4b;
+    }
+    .ip-box.private h2 i {
+      color: #8a4c9e;
+    }
+
+    .ip-box .esempio {
+      background: #eef4fa;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 1.1rem;
+      display: inline-block;
+      margin: 0.5rem 0 1rem;
+      border: 1px solid #dae3ed;
+      letter-spacing: 0.3px;
+      color: #0b2b40;
+    }
+
+    .ip-box p {
+      margin: 0.8rem 0;
+      color: #1e2f40;
+    }
+
+    .ip-box ul {
+      list-style: none;
+      margin: 1.2rem 0 0.2rem;
+    }
+
+    .ip-box ul li {
+      padding: 0.35rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .ip-box ul li i {
+      width: 1.4rem;
+      margin-top: 0.2rem;
+      color: #2c6b9e;
+      font-size: 1rem;
+    }
+
+    .ip-box.public ul li i {
+      color: #0f7b4b;
+    }
+    .ip-box.private ul li i {
+      color: #8a4c9e;
+    }
+
+    /* Tabella comparativa */
+    .comparativa {
+      margin: 3rem 0 1.5rem;
+      background: #f8faff;
+      border-radius: 2rem;
+      padding: 1.8rem 1.5rem 2rem;
+      border: 1px solid #dde6f0;
+    }
+
+    .comparativa h3 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      color: #0f3b5a;
+    }
+
+    .comparativa h3 i {
+      color: #1e6f9f;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      background: white;
+      border-radius: 1.2rem;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    th {
+      background: #e2edf9;
+      color: #0f3852;
+      font-weight: 600;
+      padding: 1rem 1rem;
+      text-align: left;
+    }
+
+    td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid #eef3f8;
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    td i {
+      margin-right: 8px;
+      color: #1e6f9f;
+      width: 1.2rem;
+    }
+
+    .highlight {
+      background: #f2f9ff;
+    }
+
+    /* analogia (metafora) */
+    .analogia {
+      background: #edf4fb;
+      border-radius: 1.8rem;
+      padding: 1.8rem 2rem;
+      margin: 2.2rem 0 1rem;
+      border-left: 8px solid #1e6f9f;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .analogia i {
+      font-size: 2.8rem;
+      color: #1e6f9f;
+      flex-shrink: 0;
+    }
+
+    .analogia p {
+      font-size: 1.1rem;
+      margin: 0;
+      max-width: 750px;
+      color: #1e3347;
+    }
+
+    .analogia strong {
+      color: #0c4b6e;
+    }
+
+    /* footer */
+    .footer {
+      margin-top: 2.8rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #62748b;
+      border-top: 1px solid #dbe4ef;
+      padding-top: 1.8rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem 2rem;
+    }
+
+    .footer i {
+      margin-right: 6px;
+      color: #3d6b8f;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .header h1 {
+        font-size: 2rem;
+      }
+      .ip-box h2 {
+        font-size: 1.6rem;
+      }
+      .card {
+        padding: 1.5rem 1rem;
+      }
+      .analogia {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .analogia i {
+        font-size: 2.4rem;
+      }
+      .comparativa h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      .header h1 {
+        font-size: 1.6rem;
+      }
+      .header .sub {
+        font-size: 1rem;
+        padding: 0.2rem 1.2rem;
+      }
+      .ip-box .esempio {
+        font-size: 0.9rem;
+        padding: 0.3rem 1rem;
+      }
+      table {
+        font-size: 0.9rem;
+      }
+      th, td {
+        padding: 0.6rem 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1><i class="fas fa-network-wired"></i> IP pubblico vs privato</h1>
+    <div class="sub"><i class="fas fa-globe" style="margin-right: 8px;"></i> due facce della stessa medaglia</div>
+  </div>
+
+  <!-- DUE COLONNE: IP PUBBLICO / PRIVATO -->
+  <div class="grid-2">
+
+    <!-- IP PUBBLICO -->
+    <div class="ip-box public">
+      <span class="badge"><i class="fas fa-earth-europe"></i> Visibile da tutti</span>
+      <h2><i class="fas fa-globe"></i> Pubblico</h2>
+      <div class="esempio">93.184.216.34</div>
+      <p><strong>Indirizzo unico</strong> assegnato dal tuo provider (ISP) a livello mondiale. È come il <strong>numero civico</strong> della tua casa su Internet.</p>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Raggiungibile da qualsiasi dispositivo connesso a Internet</li>
+        <li><i class="fas fa-check-circle"></i> Identifica la tua rete verso l'esterno</li>
+        <li><i class="fas fa-check-circle"></i> Può cambiare (dinamico) o essere fisso (statico)</li>
+        <li><i class="fas fa-check-circle"></i> Usato per server, siti web, VPN, gaming online</li>
+      </ul>
+    </div>
+
+    <!-- IP PRIVATO -->
+    <div class="ip-box private">
+      <span class="badge"><i class="fas fa-house-laptop"></i> Locale / interno</span>
+      <h2><i class="fas fa-house-signal"></i> Privato</h2>
+      <div class="esempio">192.168.1.100</div>
+      <p><strong>Locale</strong> all'interno della tua rete domestica o aziendale. È come il <strong>nome della stanza</strong> in casa tua: ha senso solo lì dentro.</p>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Valido solo nella tua LAN (router, WiFi, cavi)</li>
+        <li><i class="fas fa-check-circle"></i> Non instradabile su Internet (viene “nascosto” dal router)</li>
+        <li><i class="fas fa-check-circle"></i> Range riservati: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</li>
+        <li><i class="fas fa-check-circle"></i> Permette a più dispositivi di condividere un unico IP pubblico</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TABELLA COMPARATIVA DETTAGLIATA -->
+  <div class="comparativa">
+    <h3><i class="fas fa-table-cells-large"></i> Tabella comparativa</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Caratteristica</th>
+            <th><i class="fas fa-globe"></i> IP Pubblico</th>
+            <th><i class="fas fa-house-signal"></i> IP Privato</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><i class="fas fa-bullseye"></i> Visibilità</td>
+            <td>Mondiale (tutta Internet)</td>
+            <td>Solo rete locale (LAN)</td>
+          </tr>
+          <tr class="highlight">
+            <td><i class="fas fa-fingerprint"></i> Unicità</td>
+            <td>Unico al mondo</td>
+            <td>Unico all'interno della stessa rete</td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-arrows-split-up-and-left"></i> Instradamento</td>
+            <td>Instradabile su Internet</td>
+            <td>Non instradabile (viene tradotto dal router)</td>
+          </tr>
+          <tr class="highlight">
+            <td><i class="fas fa-address-card"></i> Assegnazione</td>
+            <td>Dal tuo ISP (Internet Service Provider)</td>
+            <td>Dal router (via DHCP o manuale)</td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-diagram-project"></i> Esempio</td>
+            <td><code>93.184.216.34</code></td>
+            <td><code>192.168.1.10</code></td>
+          </tr>
+          <tr class="highlight">
+            <td><i class="fas fa-shield-halved"></i> Sicurezza</td>
+            <td>Esposto a Internet (richiede firewall)</td>
+            <td>Nascosto dietro il NAT del router</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ANALOGIA / METAFORA -->
+  <div class="analogia">
+    <i class="fas fa-people-arrows"></i>
+    <p>
+      <strong>📍 Metafora del condominio:</strong> L'<strong>IP pubblico</strong> è l'indirizzo del palazzo (via Roma, 5) – unico e riconosciuto da tutti.  
+      L'<strong>IP privato</strong> è il numero dell'appartamento (3° piano, interno 2) – ha senso solo all'interno del palazzo.  
+      Il <strong>router</strong> fa da portinaio: riceve i pacchi (dati) dall'esterno e li recapita all'appartamento giusto usando il numero interno.
+    </p>
+  </div>
+
+  <!-- NOTE TECNICHE E CURIOSITÀ -->
+  <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem; background: #f4faff; border-radius: 1.8rem; padding: 1.5rem 2rem;">
+    <div style="flex: 1; min-width: 200px;">
+      <i class="fas fa-rotate" style="color: #1e6f9f; margin-right: 8px;"></i>
+      <strong>IP dinamico vs statico</strong> 
+      <p style="margin-top: 6px; font-size: 0.95rem; color: #1f384f;">La maggior parte degli IP pubblici sono <strong>dinamici</strong> (cambiano ogni tot). Quelli <strong>statici</strong> sono a pagamento e usati per server.</p>
+    </div>
+    <div style="flex: 1; min-width: 200px;">
+      <i class="fas fa-shield" style="color: #1e6f9f; margin-right: 8px;"></i>
+      <strong>NAT (Network Address Translation)</strong>
+      <p style="margin-top: 6px; font-size: 0.95rem; color: #1f384f;">Il router traduce gli IP privati in pubblico e viceversa, permettendo a tutti i dispositivi di navigare con un solo IP pubblico.</p>
+    </div>
+    <div style="flex: 1; min-width: 200px;">
+      <i class="fas fa-list-check" style="color: #1e6f9f; margin-right: 8px;"></i>
+      <strong>Range riservati</strong>
+      <p style="margin-top: 6px; font-size: 0.95rem; color: #1f384f; font-family: monospace;">10.0.0.0 – 10.255.255.255 <br> 172.16.0.0 – 172.31.255.255 <br> 192.168.0.0 – 192.168.255.255</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span><i class="fas fa-circle-info"></i> Guida divulgativa · pubblico vs privato</span>
+    <span><i class="fas fa-wifi"></i> Ogni dispositivo ha un IP privato, la rete ne ha uno pubblico</span>
+    <span><i class="fas fa-code"></i> Pagina realizzata con strumenti di IA</span>
+  </div>
+
+</div>
+<!-- fine card -->
+
+</body>
+</html>
